@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="imitation-xiaomi-mall:Web exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/imitation_xiaomi_mall_Web_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="imitation-xiaomi-mall/web/Web" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="imitation-xiaomi-mall" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
