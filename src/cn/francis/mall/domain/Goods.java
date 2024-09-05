@@ -26,7 +26,7 @@ public class Goods {
     private LocalDateTime pubdate;
     private String picture;
     private BigDecimal price;
-    private Boolean star;
+    private Integer star;
     private String intro;
     private Integer typeid;
 }

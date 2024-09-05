@@ -57,10 +57,10 @@
         <p id="goodsType">
 			<!-- 根据ajax 回调函数 填写数据 到此id中 -->
         </p>
-       <form class="form-inline pull-right" style="margin-top: 40px;margin-right: 10px;">
+       <form action="goodsservlet?method=getGoodsListByTypeId" method="post" class="form-inline pull-right" style="margin-top: 40px;margin-right: 10px;">
 		
 		  <div class="form-group">
-		    <input type="text" class="form-control" style="width: 400px"  placeholder="搜索一下好东西...">
+		    <input type="text" class="form-control" name="goodsName" value="${goodsName}" style="width: 400px"  placeholder="搜索一下好东西...">
 		  </div>
 		  <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-search"></span>&nbsp;&nbsp;搜索</button>
 	  </form>

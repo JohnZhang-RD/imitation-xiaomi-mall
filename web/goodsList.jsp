@@ -29,8 +29,8 @@
 	</div>
 	<div class="panel-body">
 	   	   <!--列表开始-->
-	    <div class="row ${pageBean.totalCount<=0?"div1":"" }">
-	    	<c:if test="${pageBean.totalCount<=0 }">没有数据！！！</c:if>
+	    <div class="row ${pageBean.totalSize<=0?"div1":"" }">
+	    	<c:if test="${pageBean.totalSize<=0 }">没有数据！！！</c:if>
 	    	<c:forEach items="${pageBean.data}" var="g" varStatus="i">
 		    	<div class="col-sm-3">
 				    <div class="thumbnail">
@@ -51,7 +51,7 @@
 			  
 		</div>
 			
-			<c:if test="${pageBean.totalCount>0 }">
+			<c:if test="${pageBean.totalSize>0 }">
 			<nav aria-label="..." class="text-center">
 			  <ul class="pagination">
 			  	
@@ -59,7 +59,7 @@
 			  	 	<li class="disabled"><span aria-hidden="true">«</span></li>
 			  	</c:if>
 			  	<c:if test="${pageBean.pageNum>1 }">
-			  	 	<li><a href="${pageContext.request.contextPath }/goodsservlet?method=getGoodsListByTypeId&pageNum=${pageBean.pageNum-1}&pageSize=${pageBean.pageSize}&typeId=${typeId}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
+			  	 	<li><a href="${pageContext.request.contextPath }/goodsservlet?method=getGoodsListByTypeId&pageNum=${pageBean.pageNum-1}&pageSize=${pageBean.pageSize}&goodsName=${goodsName}&typeId=${typeId}" aria-label="Previous"><span aria-hidden="true">«</span></a></li>
 			  	</c:if>
 			   
 			    <c:forEach var="pn" begin="${pageBean.startPage }" end="${pageBean.endPage }" step="1">
@@ -67,15 +67,15 @@
 			    		<li class="active"><a href="#">${pn }<span class="sr-only">(current)</span></a></li>
 			    	</c:if>
 			    	<c:if test="${pn!=pageBean.pageNum }">
-			    		<li ><a href="${pageContext.request.contextPath }/goodsservlet?method=getGoodsListByTypeId&pageNum=${pn }&pageSize=${pageBean.pageSize}&typeId=${typeId}">${pn }</a></li>
+			    		<li ><a href="${pageContext.request.contextPath }/goodsservlet?method=getGoodsListByTypeId&pageNum=${pn }&pageSize=${pageBean.pageSize}&goodsName=${goodsName}&typeId=${typeId}">${pn }</a></li>
 			    	</c:if>
 			    </c:forEach>
 			    
-			    <c:if test="${pageBean.pageNum==pageBean.totalPage }">
+			    <c:if test="${pageBean.pageNum==pageBean.pageCount }">
 			     <li class="disabled"><span aria-hidden="true">»</span></li>
 			    </c:if>
-			      <c:if test="${pageBean.pageNum<pageBean.totalPage }">
-			     <li><a href="${pageContext.request.contextPath }/goodsservlet?method=getGoodsListByTypeId&pageNum=${pageBean.pageNum+1}&pageSize=${pageBean.pageSize}&typeId=${typeId}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
+			      <c:if test="${pageBean.pageNum<pageBean.pageCount }">
+			     <li><a href="${pageContext.request.contextPath }/goodsservlet?method=getGoodsListByTypeId&pageNum=${pageBean.pageNum+1}&pageSize=${pageBean.pageSize}&goodsName=${goodsName}&typeId=${typeId}" aria-label="Next"><span aria-hidden="true">»</span></a></li>
 			    </c:if>
 
 		  </ul>

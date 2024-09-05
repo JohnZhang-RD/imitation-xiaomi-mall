@@ -31,9 +31,7 @@ public class GoodsTypeServlet extends BaseServlet {
 
         GoodsTypeService goodsTypeService = new GoodsTypeServiceImpl();
         List<GoodsType> goodsTypeList = goodsTypeService.findByLevel(1);
-        for (GoodsType goodsType : goodsTypeList) {
-            System.out.println(goodsType);
-        }
+
         String jsonString = JSON.toJSONString(goodsTypeList);
         response.getWriter().write(jsonString);
 
