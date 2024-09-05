@@ -18,4 +18,6 @@ public interface UserService {
     void register(User user);
 
     void active(String email, String code);
+
+    User login(String username, String password);
 }

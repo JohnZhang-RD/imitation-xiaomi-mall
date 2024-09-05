@@ -4,11 +4,13 @@ import cn.dsna.util.images.ValidateCode;
 import cn.francis.mall.domain.User;
 import cn.francis.mall.service.UserService;
 import cn.francis.mall.service.impl.UserServiceImpl;
+import cn.francis.mall.utils.Base64Utils;
 import cn.francis.mall.utils.RandomUtils;
 import cn.francis.mall.utils.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -27,8 +29,52 @@ import java.io.IOException;
 @WebServlet("/userservlet")
 public class UserServlet extends BaseServlet {
     public String login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        String vcode = request.getParameter("vcode");
+        String auto = request.getParameter("auto");
 
-        return "redirect:/index.jsp";
+        System.out.println(username);
+
+        if (StringUtils.isEmpty(username)) {
+            request.setAttribute("msg", "用户名不能为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(password)) {
+            request.setAttribute("msg", "密码不能为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(vcode)) {
+            request.setAttribute("msg", "验证码不能为空");
+            return "/message.jsp";
+        }
+
+        String code = (String) request.getSession().getAttribute("vcode");
+        if (!code.equalsIgnoreCase(vcode)) {
+            request.setAttribute("msg", "验证码错误");
+            return "/message.jsp";
+        }
+
+        try {
+            UserService userService = new UserServiceImpl();
+            User user = userService.login(username, password);
+            request.getSession().setAttribute("user", user);
+
+            if (auto != null) {
+                String userInfo = username + "&" + password;
+                userInfo = Base64Utils.encode(userInfo);
+                Cookie cookie = new Cookie("userInfo", userInfo);
+                cookie.setPath(request.getContextPath());
+                cookie.setMaxAge(14 * 24 * 60 * 60);
+                cookie.setHttpOnly(true);
+                response.addCookie(cookie);
+            }
+
+            return "redirect:/index.jsp";
+        } catch (Exception e) {
+            request.setAttribute("msg", "用户登陆失败" + e.getMessage());
+            return "/message.jsp";
+        }
     }
 
     public String register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

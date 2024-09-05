@@ -40,4 +40,19 @@ public class UserServiceImpl implements UserService {
     public void active(String email, String code) {
         int result = userDao.updateFlag(email, code);
     }
+
+    @Override
+    public User login(String username, String password) {
+        User user = userDao.selectByUsername(username);
+        if (user == null) {
+            throw new RuntimeException("用户名不存在");
+        }
+        if (!MD5Utils.md5(password).equals(user.getPassword())) {
+            throw new RuntimeException("密码错误");
+        }
+        if (user.getFlag() != 1) {
+            throw new RuntimeException("账户未激活");
+        }
+        return user;
+    }
 }

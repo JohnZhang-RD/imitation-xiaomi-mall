@@ -25,18 +25,18 @@
 			$("#pagecode").attr("src","userservlet?method=code&"+Math.random());
 		});
 		//3.验证输入的验证码 是否正确
-		$("#vcode").change(function(){
-			$.get("userservlet?method=checkCode","code="+this.value,function(data){
-				if(data=="0"){
-					$("#checkMsg").html("<font color='green'>OK</font>");
-					$("#btn").removeAttr("disabled");
-				}else{
-					$("#checkMsg").html("<font color='red'>ERROR</font>");
-					$("#pagecode").attr("src","userservlet?method=code&num="+Math.random());
-					$("#btn").Attr("disabled",true);
-				}
-			})
-		});
+		// $("#vcode").change(function(){
+		// 	$.get("userservlet?method=checkCode","code="+this.value,function(data){
+		// 		if(data=="0"){
+		// 			$("#checkMsg").html("<font color='green'>OK</font>");
+		// 			$("#btn").removeAttr("disabled");
+		// 		}else{
+		// 			$("#checkMsg").html("<font color='red'>ERROR</font>");
+		// 			$("#pagecode").attr("src","userservlet?method=code&num="+Math.random());
+		// 			$("#btn").Attr("disabled",true);
+		// 		}
+		// 	})
+		// });
 		//4.两周以内自动登录  友好提示 
 		$("#autoLogin").click(function(){
 			if(this.checked){
@@ -92,7 +92,7 @@
 						<span id="autoLoginMsg"></span>
 					</div>
 					<div class="login_submit">
-						<input class="submit" type="submit" name="submit" value="立即登录" id="btn" disabled >
+						<input class="submit" type="submit" name="submit" value="立即登录" id="btn" >
 					</div>
 					<span style="color:red">${msg}</span>
 				</div>	
