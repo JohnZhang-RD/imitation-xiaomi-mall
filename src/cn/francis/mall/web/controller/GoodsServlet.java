@@ -32,7 +32,7 @@ public class GoodsServlet extends BaseServlet {
         String pageNum = request.getParameter("pageNum");
         String pageSize = request.getParameter("pageSize");
         String goodsName = request.getParameter("goodsName");
-        System.out.println(goodsName);
+
         int pageNumDefault = 1;
         int pageSizeDefault = 8;
 

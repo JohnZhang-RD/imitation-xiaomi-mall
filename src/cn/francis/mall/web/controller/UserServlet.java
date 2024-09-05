@@ -34,7 +34,6 @@ public class UserServlet extends BaseServlet {
         String vcode = request.getParameter("vcode");
         String auto = request.getParameter("auto");
 
-        System.out.println(username);
 
         if (StringUtils.isEmpty(username)) {
             request.setAttribute("msg", "用户名不能为空");
