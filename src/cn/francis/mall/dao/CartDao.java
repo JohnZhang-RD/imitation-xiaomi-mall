@@ -24,4 +24,6 @@ public interface CartDao {
     List<Cart> listCarts(Integer id);
 
     void deleteCart(Integer id, int goodsId);
+
+    void deleteAllCart(Integer id);
 }

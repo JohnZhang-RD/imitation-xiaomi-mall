@@ -24,4 +24,6 @@ public interface CartService {
     List<Cart> listCart(Integer id);
 
     void removeCart(Integer id, int goodsId);
+
+    void removeAllCart(Integer id);
 }

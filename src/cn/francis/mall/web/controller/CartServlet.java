@@ -135,4 +135,21 @@ public class CartServlet extends BaseServlet {
             return "/message.jsp";
         }
     }
+
+    // cartservlet?method=clearCartAjax
+    public String clearCartAjax(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/login.jsp";
+        }
+
+        try {
+            CartService cartService = new CartServiceImpl();
+            cartService.removeAllCart(user.getId());
+            return null;
+        } catch (Exception e) {
+            request.setAttribute("msg", "清空购物车失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
 }
