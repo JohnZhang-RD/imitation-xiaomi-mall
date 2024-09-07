@@ -65,7 +65,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Address> listAddress(Integer id) {
-        return userDao.listAddress(id);
+    public List<Address> listAddress(Integer uid) {
+        return userDao.listAddress(uid);
+    }
+
+    @Override
+    public void removeAddress(Integer uId, int addressId) {
+        userDao.deleteAddress(uId, addressId);
     }
 }

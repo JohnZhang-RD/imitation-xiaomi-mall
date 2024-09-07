@@ -75,4 +75,14 @@ public class UserDaoImpl implements UserDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void deleteAddress(Integer uId, int addressId) {
+        String sql = " DELETE FROM tb_address WHERE uid = ? AND id = ? ";
+        try {
+            queryRunner.update(sql, uId, addressId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

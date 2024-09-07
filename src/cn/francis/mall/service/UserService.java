@@ -26,5 +26,7 @@ public interface UserService {
 
     void saveAddress(Address address);
 
-    List<Address> listAddress(Integer id);
+    List<Address> listAddress(Integer uid);
+
+    void removeAddress(Integer uId, int addressId);
 }

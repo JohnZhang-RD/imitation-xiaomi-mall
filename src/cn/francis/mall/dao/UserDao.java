@@ -25,4 +25,6 @@ public interface UserDao {
     void insert(Address address);
 
     List<Address> listAddress(Integer uid);
+
+    void deleteAddress(Integer uId, int addressId);
 }

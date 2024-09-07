@@ -174,7 +174,9 @@ public class UserServlet extends BaseServlet {
             Address address = new Address(null, detail, name, phone, user.getId(), 0);
             UserService userService = new UserServiceImpl();
             userService.saveAddress(address);
-            return "redirect:/cart.jsp";
+            List<Address> addList = userService.listAddress(user.getId());
+            request.setAttribute("addList", addList);
+            return "/self_info.jsp";
         } catch (Exception e) {
             request.setAttribute("msg", "地址添加失败" + e.getMessage());
             return "/message.jsp";
@@ -197,6 +199,28 @@ public class UserServlet extends BaseServlet {
             return "/self_info.jsp";
         } catch (Exception e) {
             request.setAttribute("msg", "地址查询失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // "userservlet?method=deleteAddress&id="+id
+    public String deleteAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        String addressId = request.getParameter("id");
+
+        if (StringUtils.isEmpty(addressId)) {
+            request.setAttribute("msg", "地址id为空");
+            return "/message.jsp";
+        }
+
+        try {
+            UserService userService = new UserServiceImpl();
+            userService.removeAddress(user.getId(), Integer.parseInt(addressId));
+            List<Address> addList = userService.listAddress(user.getId());
+            request.setAttribute("addList", addList);
+            return "/self_info.jsp";
+        } catch (NumberFormatException e) {
+            request.setAttribute("msg", "地址删除失败" + e.getMessage());
             return "/message.jsp";
         }
     }
