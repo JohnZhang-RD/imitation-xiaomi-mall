@@ -15,5 +15,7 @@ import java.util.List;
  */
 
 public interface GoodsTypeService {
- List<GoodsType> findByLevel(int i);
+    List<GoodsType> findByLevel(int i);
+
+    GoodsType getGoodsType(Integer typeid);
 }

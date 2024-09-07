@@ -4,8 +4,10 @@ import cn.francis.mall.dao.GoodsTypeDao;
 import cn.francis.mall.domain.GoodsType;
 import cn.francis.mall.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -30,4 +32,15 @@ public class GoodsTypeDaoImpl implements GoodsTypeDao {
              throw new RuntimeException(e);
          }
      }
+
+    @Override
+    public GoodsType getGoodsType(Integer typeid) {
+        try {
+            String sql = " SELECT * FROM tb_goods_type WHERE id = ? ";
+            return queryRunner.query(sql, new BeanHandler<>(GoodsType.class), typeid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+    }
 }

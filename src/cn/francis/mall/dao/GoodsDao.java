@@ -18,4 +18,6 @@ public interface GoodsDao {
     long getCount(String where, List<Object> params);
 
     List<Goods> selectByPage(int pageNumDefault, int pageSizeDefault, String where, List<Object> params);
+
+    Goods getGoods(int id);
 }

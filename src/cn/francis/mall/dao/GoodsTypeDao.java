@@ -16,4 +16,6 @@ import java.util.List;
 
 public interface GoodsTypeDao {
     List<GoodsType> select(int i);
+
+    GoodsType getGoodsType(Integer typeid);
 }

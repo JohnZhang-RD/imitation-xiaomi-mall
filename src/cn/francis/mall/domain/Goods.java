@@ -29,4 +29,16 @@ public class Goods {
     private Integer star;
     private String intro;
     private Integer typeid;
+    private GoodsType goodsType;
+
+    public Goods(Integer id, String name, LocalDateTime pubdate, String picture, BigDecimal price, Integer star, String intro, Integer typeid) {
+        this.id = id;
+        this.name = name;
+        this.pubdate = pubdate;
+        this.picture = picture;
+        this.price = price;
+        this.star = star;
+        this.intro = intro;
+        this.typeid = typeid;
+    }
 }

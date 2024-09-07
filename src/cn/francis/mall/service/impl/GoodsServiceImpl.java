@@ -3,8 +3,10 @@ package cn.francis.mall.service.impl;
 import cn.francis.mall.dao.GoodsDao;
 import cn.francis.mall.dao.impl.GoodsDaoImpl;
 import cn.francis.mall.domain.Goods;
+import cn.francis.mall.domain.GoodsType;
 import cn.francis.mall.domain.PageBean;
 import cn.francis.mall.service.GoodsService;
+import cn.francis.mall.service.GoodsTypeService;
 
 import java.util.List;
 
@@ -26,5 +28,17 @@ public class GoodsServiceImpl implements GoodsService {
         long totalSize = goodsDao.getCount(where, params);
         List<Goods> data = goodsDao.selectByPage(pageNumDefault, pageSizeDefault, where, params);
         return new PageBean<>(pageNumDefault, pageSizeDefault, totalSize, data);
+    }
+
+    @Override
+    public Goods getGoods(int id) {
+        Goods goods = goodsDao.getGoods(id);
+        if (goods != null) {
+            Integer typeid = goods.getTypeid();
+            GoodsTypeService goodsTypeService = new GoodsTypeServiceImpl();
+            GoodsType goodsType = goodsTypeService.getGoodsType(typeid);
+            goods.setGoodsType(goodsType);
+        }
+        return goods;
     }
 }

@@ -79,4 +79,23 @@ public class GoodsServlet extends BaseServlet {
             return "redirect:index.jsp";
         }
     }
+
+    // /goodsservlet?method=getGoodsById&id=${g.id}
+    public String getGoodsById(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String id = request.getParameter("id");
+        if (StringUtils.isEmpty(id)) {
+            request.setAttribute("msg", "商品id不能为空");
+            return "/message.jsp";
+        }
+
+        try {
+            GoodsService goodsService = new GoodsServiceImpl();
+            Goods goods = goodsService.getGoods(Integer.parseInt(id));
+            request.setAttribute("goods", goods);
+            return "/goodsDetail.jsp";
+        } catch (NumberFormatException e) {
+            request.setAttribute("msg", "查询失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
 }

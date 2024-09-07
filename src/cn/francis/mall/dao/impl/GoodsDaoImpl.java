@@ -4,6 +4,7 @@ import cn.francis.mall.dao.GoodsDao;
 import cn.francis.mall.domain.Goods;
 import cn.francis.mall.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
 
@@ -40,6 +41,16 @@ public class GoodsDaoImpl implements GoodsDao {
         params.add(pageSizeDefault);
         try {
             return queryRunner.query(sql, new BeanListHandler<>(Goods.class), params.toArray());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Goods getGoods(int id) {
+        String sql = " SELECT * FROM tb_goods WHERE id = ? ";
+        try {
+            return queryRunner.query(sql, new BeanHandler<>(Goods.class), id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

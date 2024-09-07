@@ -19,8 +19,14 @@ import java.util.List;
 
 public class GoodsTypeServiceImpl implements GoodsTypeService {
     private GoodsTypeDao goodsTypeDao = new GoodsTypeDaoImpl();
+
     @Override
     public List<GoodsType> findByLevel(int i) {
         return goodsTypeDao.select(i);
+    }
+
+    @Override
+    public GoodsType getGoodsType(Integer typeid) {
+        return goodsTypeDao.getGoodsType(typeid);
     }
 }
