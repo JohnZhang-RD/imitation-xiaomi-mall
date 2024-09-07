@@ -14,4 +14,8 @@ import cn.francis.mall.domain.Cart;
 
 public interface CartService {
     void save(Cart cart);
+
+    Cart getCart(Integer id, int goodsId);
+
+    void updateCart(Cart cart);
 }

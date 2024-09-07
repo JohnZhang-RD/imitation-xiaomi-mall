@@ -1,5 +1,6 @@
 package cn.francis.mall.dao;
 
+import cn.francis.mall.domain.Cart;
 import cn.francis.mall.domain.Goods;
 
 import java.util.List;
@@ -20,4 +21,5 @@ public interface GoodsDao {
     List<Goods> selectByPage(int pageNumDefault, int pageSizeDefault, String where, List<Object> params);
 
     Goods getGoods(int id);
+
 }

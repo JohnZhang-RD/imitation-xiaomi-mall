@@ -4,6 +4,7 @@ import cn.francis.mall.dao.CartDao;
 import cn.francis.mall.domain.Cart;
 import cn.francis.mall.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 
 import java.sql.SQLException;
 
@@ -25,6 +26,27 @@ public class CartDaoImpl implements CartDao {
         String sql = " INSERT INTO tb_cart (id, pid, num, money) VALUES (?, ?, ?, ?) ";
         Object[] params = {cart.getId(), cart.getPid(), cart.getNum(), cart.getMoney()};
         try {
+            queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Cart getCart(Integer id, int goodsId) {
+        String sql = " SELECT * FROM tb_cart WHERE id = ? AND pid = ? ";
+        try {
+            return queryRunner.query(sql, new BeanHandler<>(Cart.class), id, goodsId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void updateCart(Cart cart) {
+        try {
+            String sql = " UPDATE tb_cart SET num = ?, money = ? WHERE id = ? AND pid = ? ";
+            Object[] params = {cart.getNum(), cart.getMoney(), cart.getId(), cart.getPid()};
             queryRunner.update(sql, params);
         } catch (SQLException e) {
             throw new RuntimeException(e);

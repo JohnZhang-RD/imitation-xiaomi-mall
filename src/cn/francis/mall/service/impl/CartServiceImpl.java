@@ -22,4 +22,14 @@ public class CartServiceImpl implements CartService {
     public void save(Cart cart) {
         cartDao.insertCart(cart);
     }
+
+    @Override
+    public Cart getCart(Integer id, int goodsId) {
+        return cartDao.getCart(id, goodsId);
+    }
+
+    @Override
+    public void updateCart(Cart cart) {
+        cartDao.updateCart(cart);
+    }
 }

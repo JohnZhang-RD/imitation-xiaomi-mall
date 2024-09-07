@@ -1,6 +1,7 @@
 package cn.francis.mall.dao.impl;
 
 import cn.francis.mall.dao.GoodsDao;
+import cn.francis.mall.domain.Cart;
 import cn.francis.mall.domain.Goods;
 import cn.francis.mall.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
@@ -55,4 +56,5 @@ public class GoodsDaoImpl implements GoodsDao {
             throw new RuntimeException(e);
         }
     }
+
 }

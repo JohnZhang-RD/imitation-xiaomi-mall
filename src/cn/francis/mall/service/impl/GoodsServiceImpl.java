@@ -2,6 +2,7 @@ package cn.francis.mall.service.impl;
 
 import cn.francis.mall.dao.GoodsDao;
 import cn.francis.mall.dao.impl.GoodsDaoImpl;
+import cn.francis.mall.domain.Cart;
 import cn.francis.mall.domain.Goods;
 import cn.francis.mall.domain.GoodsType;
 import cn.francis.mall.domain.PageBean;
@@ -41,4 +42,5 @@ public class GoodsServiceImpl implements GoodsService {
         }
         return goods;
     }
+
 }

@@ -1,5 +1,6 @@
 package cn.francis.mall.service;
 
+import cn.francis.mall.domain.Cart;
 import cn.francis.mall.domain.Goods;
 import cn.francis.mall.domain.PageBean;
 
@@ -19,4 +20,5 @@ public interface GoodsService {
     PageBean<Goods> findByPage(int pageNumDefault, int pageSizeDefault, String where, List<Object> params);
 
     Goods getGoods(int id);
+
 }

@@ -58,8 +58,16 @@ public class CartServlet extends BaseServlet {
             int goodsIdInt = Integer.parseInt(goodsId);
             GoodsService goodsService = new GoodsServiceImpl();
             Goods goods = goodsService.getGoods(goodsIdInt);
-            Cart cart = new Cart(user.getId(), goodsIdInt, num, goods.getPrice().multiply(new BigDecimal(num)));
-            cartService.save(cart);
+            // 查看购物车是否已经有该商品
+            Cart cart = cartService.getCart(user.getId(), goodsIdInt);
+            if (cart != null) {
+                cart.setNum(cart.getNum() + num);
+                cart.setMoney(goods.getPrice().multiply(new BigDecimal(cart.getNum())));
+                cartService.updateCart(cart);
+            } else{
+                cart = new Cart(user.getId(), goodsIdInt, num, goods.getPrice().multiply(new BigDecimal(num)));
+                cartService.save(cart);
+            }
             return "redirect:/cartSuccess.jsp";
         } catch (NumberFormatException e) {
             request.setAttribute("msg", "添加购物车失败" + e.getMessage());
