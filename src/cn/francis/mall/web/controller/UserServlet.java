@@ -15,6 +15,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Name: UserServlet
@@ -179,5 +180,24 @@ public class UserServlet extends BaseServlet {
             return "/message.jsp";
         }
 
+    }
+
+
+    // userservlet?method=getAddress
+    public String getAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/login.jsp";
+        }
+
+        try {
+            UserService userService = new UserServiceImpl();
+            List<Address> addList = userService.listAddress(user.getId());
+            request.setAttribute("addList", addList);
+            return "/self_info.jsp";
+        } catch (Exception e) {
+            request.setAttribute("msg", "地址查询失败" + e.getMessage());
+            return "/message.jsp";
+        }
     }
 }

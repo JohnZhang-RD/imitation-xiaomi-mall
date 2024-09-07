@@ -7,8 +7,10 @@ import cn.francis.mall.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Name: UserDaoImpl
@@ -59,6 +61,16 @@ public class UserDaoImpl implements UserDao {
         Object[] params = {address.getDetail(), address.getName(), address.getPhone(), address.getUid(), address.getLevel()};
         try {
             queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Address> listAddress(Integer uid) {
+        try {
+            String sql = " SELECT * FROM tb_address WHERE uid = ? ";
+            return queryRunner.query(sql, new BeanListHandler<>(Address.class), uid);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

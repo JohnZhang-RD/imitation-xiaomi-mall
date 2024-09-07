@@ -3,6 +3,8 @@ package cn.francis.mall.service;
 import cn.francis.mall.domain.Address;
 import cn.francis.mall.domain.User;
 
+import java.util.List;
+
 /**
  * Name: UserService
  * Package: cn.francis.mall.service
@@ -23,4 +25,6 @@ public interface UserService {
     User login(String username, String password);
 
     void saveAddress(Address address);
+
+    List<Address> listAddress(Integer id);
 }
