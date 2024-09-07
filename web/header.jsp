@@ -4,13 +4,14 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		$.ajax({
+			// FIXME 调用两次接口，数据重复显示
 			url:"${pageContext.request.contextPath}/goodstypeservlet?method=goodstypelist",
 			type:"GET",
 			success:function(data){
 				for(var i in data){
 					var a = $("<a href='${pageContext.request.contextPath}/goodsservlet?method=getGoodsListByTypeId&typeId="+data[i].id+"'>"+data[i].name+"</a>");
 					$("#goodsType").append(a);
-					
+
 				}
 			},
 			dataType:"json",

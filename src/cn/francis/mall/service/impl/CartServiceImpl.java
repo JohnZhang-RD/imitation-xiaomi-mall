@@ -3,7 +3,11 @@ package cn.francis.mall.service.impl;
 import cn.francis.mall.dao.CartDao;
 import cn.francis.mall.dao.impl.CartDaoImpl;
 import cn.francis.mall.domain.Cart;
+import cn.francis.mall.domain.Goods;
 import cn.francis.mall.service.CartService;
+import cn.francis.mall.service.GoodsService;
+
+import java.util.List;
 
 /**
  * Name: CartServiceImpl
@@ -31,5 +35,20 @@ public class CartServiceImpl implements CartService {
     @Override
     public void updateCart(Cart cart) {
         cartDao.updateCart(cart);
+    }
+
+    @Override
+    public List<Cart> listCart(Integer id) {
+        List<Cart> cartList = cartDao.listCarts(id);
+        try {
+            GoodsService goodsService = new GoodsServiceImpl();
+            for (Cart cart : cartList) {
+                Goods goods = goodsService.getGoods(cart.getPid());
+                cart.setGoods(goods);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return cartList;
     }
 }

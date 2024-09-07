@@ -2,6 +2,8 @@ package cn.francis.mall.dao;
 
 import cn.francis.mall.domain.Cart;
 
+import java.util.List;
+
 /**
  * Name: CartDao
  * Package: cn.francis.mall.dao
@@ -18,4 +20,6 @@ public interface CartDao {
     Cart getCart(Integer id, int goodsId);
 
     void updateCart(Cart cart);
+
+    List<Cart> listCarts(Integer id);
 }

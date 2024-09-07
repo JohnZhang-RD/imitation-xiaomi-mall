@@ -24,4 +24,12 @@ public class Cart {
     private Integer pid;
     private Integer num;
     private BigDecimal money;
+    private Goods goods;
+
+    public Cart(Integer id, Integer pid, Integer num, BigDecimal money) {
+        this.id = id;
+        this.pid = pid;
+        this.num = num;
+        this.money = money;
+    }
 }

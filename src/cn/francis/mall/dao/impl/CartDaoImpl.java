@@ -5,8 +5,10 @@ import cn.francis.mall.domain.Cart;
 import cn.francis.mall.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Name: CartDaoImpl
@@ -48,6 +50,16 @@ public class CartDaoImpl implements CartDao {
             String sql = " UPDATE tb_cart SET num = ?, money = ? WHERE id = ? AND pid = ? ";
             Object[] params = {cart.getNum(), cart.getMoney(), cart.getId(), cart.getPid()};
             queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Cart> listCarts(Integer id) {
+        try {
+            String sql = " SELECT * FROM tb_cart WHERE id = ? ";
+            return queryRunner.query(sql, new BeanListHandler<>(Cart.class), id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -2,6 +2,8 @@ package cn.francis.mall.service;
 
 import cn.francis.mall.domain.Cart;
 
+import java.util.List;
+
 /**
  * Name: CartService
  * Package: cn.francis.mall.service
@@ -18,4 +20,6 @@ public interface CartService {
     Cart getCart(Integer id, int goodsId);
 
     void updateCart(Cart cart);
+
+    List<Cart> listCart(Integer id);
 }

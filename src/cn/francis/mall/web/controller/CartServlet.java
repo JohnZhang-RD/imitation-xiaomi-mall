@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Name: CartServlet
@@ -71,6 +72,25 @@ public class CartServlet extends BaseServlet {
             return "redirect:/cartSuccess.jsp";
         } catch (NumberFormatException e) {
             request.setAttribute("msg", "添加购物车失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // /cartservlet?method=getCart
+    public String getCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 判断用户是否登录
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/login.jsp";
+        }
+
+        try {
+            CartService cartService = new CartServiceImpl();
+            List<Cart> cartList = cartService.listCart(user.getId());
+            request.setAttribute("cartList", cartList);
+            return "/cart.jsp";
+        } catch (Exception e) {
+            request.setAttribute("msg", "查看购物车失败" + e.getMessage());
             return "/message.jsp";
         }
     }
