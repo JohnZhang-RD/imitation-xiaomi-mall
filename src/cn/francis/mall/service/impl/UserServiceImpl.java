@@ -2,6 +2,7 @@ package cn.francis.mall.service.impl;
 
 import cn.francis.mall.dao.UserDao;
 import cn.francis.mall.dao.impl.UserDaoImpl;
+import cn.francis.mall.domain.Address;
 import cn.francis.mall.domain.User;
 import cn.francis.mall.service.UserService;
 import cn.francis.mall.utils.EmailUtils;
@@ -54,5 +55,10 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("账户未激活");
         }
         return user;
+    }
+
+    @Override
+    public void saveAddress(Address address) {
+        userDao.insert(address);
     }
 }

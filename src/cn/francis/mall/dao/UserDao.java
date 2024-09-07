@@ -1,5 +1,6 @@
 package cn.francis.mall.dao;
 
+import cn.francis.mall.domain.Address;
 import cn.francis.mall.domain.User;
 
 /**
@@ -18,4 +19,6 @@ public interface UserDao {
     void insert(User user);
 
     int updateFlag(String email, String code);
+
+    void insert(Address address);
 }

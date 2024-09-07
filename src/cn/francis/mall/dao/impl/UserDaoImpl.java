@@ -1,6 +1,7 @@
 package cn.francis.mall.dao.impl;
 
 import cn.francis.mall.dao.UserDao;
+import cn.francis.mall.domain.Address;
 import cn.francis.mall.domain.User;
 import cn.francis.mall.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
@@ -47,6 +48,17 @@ public class UserDaoImpl implements UserDao {
         String sql = "UPDATE tb_user SET flag = 1 WHERE email = ? AND code = ? AND flag = 0";
         try {
             return queryRunner.update(sql, email, code);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void insert(Address address) {
+        String sql = " INSERT INTO tb_address VALUES (null, ?, ?, ?, ?, ?) ";
+        Object[] params = {address.getDetail(), address.getName(), address.getPhone(), address.getUid(), address.getLevel()};
+        try {
+            queryRunner.update(sql, params);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -1,5 +1,6 @@
 package cn.francis.mall.service;
 
+import cn.francis.mall.domain.Address;
 import cn.francis.mall.domain.User;
 
 /**
@@ -20,4 +21,6 @@ public interface UserService {
     void active(String email, String code);
 
     User login(String username, String password);
+
+    void saveAddress(Address address);
 }

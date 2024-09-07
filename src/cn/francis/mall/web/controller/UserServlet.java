@@ -1,6 +1,7 @@
 package cn.francis.mall.web.controller;
 
 import cn.dsna.util.images.ValidateCode;
+import cn.francis.mall.domain.Address;
 import cn.francis.mall.domain.User;
 import cn.francis.mall.service.UserService;
 import cn.francis.mall.service.impl.UserServiceImpl;
@@ -147,5 +148,36 @@ public class UserServlet extends BaseServlet {
         System.out.println(validateCode.getCode());
         validateCode.write(response.getOutputStream());
         return null;
+    }
+
+    // userservlet?method=addAddress
+    public String addAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name");
+        String phone = request.getParameter("phone");
+        String detail = request.getParameter("detail");
+
+        if (StringUtils.isEmpty(name)) {
+            request.setAttribute("msg", "收件人为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(phone)) {
+            request.setAttribute("msg", "手机号为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(detail)) {
+            request.setAttribute("msg", "地址为空");
+            return "/message.jsp";
+        }
+        try {
+            User user = (User) request.getSession().getAttribute("user");
+            Address address = new Address(null, detail, name, phone, user.getId(), 0);
+            UserService userService = new UserServiceImpl();
+            userService.saveAddress(address);
+            return "redirect:/cart.jsp";
+        } catch (Exception e) {
+            request.setAttribute("msg", "地址添加失败" + e.getMessage());
+            return "/message.jsp";
+        }
+
     }
 }
