@@ -22,4 +22,6 @@ public interface CartService {
     void updateCart(Cart cart);
 
     List<Cart> listCart(Integer id);
+
+    void removeCart(Integer id, int goodsId);
 }

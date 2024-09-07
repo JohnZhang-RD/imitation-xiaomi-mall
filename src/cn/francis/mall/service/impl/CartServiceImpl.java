@@ -51,4 +51,9 @@ public class CartServiceImpl implements CartService {
         }
         return cartList;
     }
+
+    @Override
+    public void removeCart(Integer id, int goodsId) {
+        cartDao.deleteCart(id, goodsId);
+    }
 }

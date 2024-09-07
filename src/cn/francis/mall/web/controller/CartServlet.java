@@ -94,4 +94,45 @@ public class CartServlet extends BaseServlet {
             return "/message.jsp";
         }
     }
+
+    // "cartservlet?method=addCartAjax&goodsId="+pid+"&number="+num,
+    public String addCartAjax(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/login.jsp";
+        }
+
+        String goodsId = request.getParameter("goodsId");
+        String number = request.getParameter("number");
+
+        if (StringUtils.isEmpty(goodsId)) {
+            request.setAttribute("msg", "商品id不能为空");
+            return "/message.jsp";
+        }
+
+        int goodsIdInt = Integer.parseInt(goodsId);
+        int numberInt = Integer.parseInt(number);
+        try {
+            CartService cartService = new CartServiceImpl();
+            if (numberInt == 0) {
+                // 删除
+                cartService.removeCart(user.getId(), goodsIdInt);
+            }
+
+            if (numberInt == 1 || numberInt == -1) {
+                Cart cart = cartService.getCart(user.getId(), goodsIdInt);
+                if (cart != null) {
+                    GoodsService goodsService = new GoodsServiceImpl();
+                    Goods goods = goodsService.getGoods(goodsIdInt);
+                    cart.setNum(cart.getNum() + numberInt);
+                    cart.setMoney(goods.getPrice().multiply(new BigDecimal(cart.getNum())));
+                    cartService.updateCart(cart);
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            request.setAttribute("msg", "更新购物车失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
 }

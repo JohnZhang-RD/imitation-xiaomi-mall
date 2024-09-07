@@ -64,4 +64,14 @@ public class CartDaoImpl implements CartDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void deleteCart(Integer id, int goodsId) {
+        String sql = " DELETE FROM tb_cart WHERE id = ? AND pid = ? ";
+        try {
+            queryRunner.update(sql, id, goodsId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
