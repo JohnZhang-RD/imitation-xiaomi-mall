@@ -29,4 +29,6 @@ public interface UserService {
     List<Address> listAddress(Integer uid);
 
     void removeAddress(Integer uId, int addressId);
+
+    void modifyDefaultAddress(Integer uId, Integer addId);
 }

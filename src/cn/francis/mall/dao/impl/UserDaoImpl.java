@@ -85,4 +85,14 @@ public class UserDaoImpl implements UserDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void updateDefaultAddress(Integer uId, Integer addId) {
+        try {
+            queryRunner.update(" UPDATE tb_address SET level = 0 WHERE uid = ? ", uId);
+            queryRunner.update(" UPDATE tb_address SET level = 1 WHERE uid = ? AND id = ? ", uId, addId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

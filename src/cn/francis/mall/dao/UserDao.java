@@ -27,4 +27,6 @@ public interface UserDao {
     List<Address> listAddress(Integer uid);
 
     void deleteAddress(Integer uId, int addressId);
+
+    void updateDefaultAddress(Integer uId, Integer addId);
 }

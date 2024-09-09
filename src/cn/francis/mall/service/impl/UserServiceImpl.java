@@ -73,4 +73,9 @@ public class UserServiceImpl implements UserService {
     public void removeAddress(Integer uId, int addressId) {
         userDao.deleteAddress(uId, addressId);
     }
+
+    @Override
+    public void modifyDefaultAddress(Integer uId, Integer addId) {
+        userDao.updateDefaultAddress(uId, addId);
+    }
 }

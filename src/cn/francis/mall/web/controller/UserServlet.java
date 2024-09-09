@@ -176,7 +176,7 @@ public class UserServlet extends BaseServlet {
             userService.saveAddress(address);
             List<Address> addList = userService.listAddress(user.getId());
             request.setAttribute("addList", addList);
-            return "/self_info.jsp";
+            return "redirect:/userservlet?method=getAddress";
         } catch (Exception e) {
             request.setAttribute("msg", "地址添加失败" + e.getMessage());
             return "/message.jsp";
@@ -218,9 +218,30 @@ public class UserServlet extends BaseServlet {
             userService.removeAddress(user.getId(), Integer.parseInt(addressId));
             List<Address> addList = userService.listAddress(user.getId());
             request.setAttribute("addList", addList);
-            return "/self_info.jsp";
+            return "redirect:/userservlet?method=getAddress";
         } catch (NumberFormatException e) {
             request.setAttribute("msg", "地址删除失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // "userservlet?method=defaultAddress&id="+id
+    public String defaultAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/login.jsp";
+        }
+        String addId = request.getParameter("id");
+        if (StringUtils.isEmpty(addId)) {
+            request.setAttribute("msg", "地址id为空");
+            return "/message.jsp";
+        }
+        try {
+            UserService userService = new UserServiceImpl();
+            userService.modifyDefaultAddress(user.getId(), Integer.parseInt(addId));
+            return "redirect:/userservlet?method=getAddress";
+        } catch (Exception e) {
+            request.setAttribute("msg", "设置默认地址失败" + e.getMessage());
             return "/message.jsp";
         }
     }
