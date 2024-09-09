@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
@@ -77,6 +78,21 @@ public class UserServlet extends BaseServlet {
             return "/message.jsp";
         }
     }
+
+    // userservlet?method=logOut
+    public String logOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.removeAttribute("user");
+        // 失效
+        session.invalidate();
+        // 删cookie
+        Cookie cookie = new Cookie("userInfo", "");
+        cookie.setPath(request.getContextPath());
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/index.jsp";
+    }
+
 
     public String register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
