@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Name: OrderDetail
@@ -25,4 +26,13 @@ public class OrderDetail {
     private Integer pid;
     private Integer num;
     private BigDecimal money;
+    private Goods goods;
+
+    public OrderDetail(Integer id, String oid, Integer pid, Integer num, BigDecimal money) {
+        this.id = id;
+        this.oid = oid;
+        this.pid = pid;
+        this.num = num;
+        this.money = money;
+    }
 }

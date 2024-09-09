@@ -21,4 +21,10 @@ public interface OrderDao {
     void insertDetail(OrderDetail orderDetail);
 
     List<Order> listOrder(Integer uId);
+
+    Order getOrder(String oId);
+
+    List<OrderDetail> getOrderDetail(String oId);
+
+    List<OrderDetail> listOrderDetail(String oid);
 }

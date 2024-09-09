@@ -6,6 +6,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>订单详情页</title>
+	<link rel="stylesheet" type="text/css" href="css/login2.css">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript">
@@ -27,21 +28,21 @@
 
 		<tr>
 			<td>订单编号:</td>
-			<td>${od.order.id}</td>
+			<td>${order.id}</td>
 			<td>订单时间:</td>
-			<td>${od.order.time}</td>
+			<td>${order.time}</td>
 		</tr>
 		<tr>
 			<td>收件人:</td>
-			<td>${od.address.name}</td>
+			<td>${order.address.name}</td>
 			<td>联系电话:</td>
-			<td>${od.address.phone}</td>
+			<td>${order.address.phone}</td>
 		</tr>
 		<tr>
 			<td>送货地址:</td>
-			<td>${od.address.detail}</td>
+			<td>${order.address.detail}</td>
 			<td>总价:</td>
-			<td>${od.order.money}</td>
+			<td>${order.money}</td>
 		</tr>
 		<tr>
 			<td align="center">商品列表:</td>
@@ -57,7 +58,7 @@
 						<th>购买数量</th>
 						<th>小计</th>
 					</tr>
-					<c:forEach items="${od.list}" var="item" varStatus="i">
+					<c:forEach items="${list}" var="item" varStatus="i">
 						<tr align="center">
 							<th>${i.count}</th>
 							<th>
@@ -76,12 +77,12 @@
 		</tr>
 		<tr>
 			<td align="right" colspan="4" style="margin-right: 40px;">
-				<a href="${pageContext.request.contextPath }/getOrderList" class="btn btn-danger btn-sm">返回订单列表</a>
+				<a href="${pageContext.request.contextPath }/orderservlet?method=getOrderList" class="btn btn-danger btn-sm">返回订单列表</a>
 				&nbsp;&nbsp;
-				<c:if test="${od.order.status eq 1 }">
-					<button type="button" onclick="pay('${od.order.id}','${od.order.money}')" class="btn btn-warning btn-sm">易付宝支付</button>
+				<c:if test="${order.status eq 1 }">
+					<button type="button" onclick="pay('${order.id}','${order.money}')" class="btn btn-warning btn-sm">易付宝支付</button>
 						&nbsp;&nbsp;
-					<button type="button" onclick="payWeiXin('${od.order.id}','${od.order.money}')" class="btn btn-success btn-sm">微信支付</button>
+					<button type="button" onclick="payWeiXin('${order.id}','${order.money}')" class="btn btn-success btn-sm">微信支付</button>
 				</c:if>
 			</td>
 		</tr>

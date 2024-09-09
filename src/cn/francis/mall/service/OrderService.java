@@ -2,6 +2,7 @@ package cn.francis.mall.service;
 
 import cn.francis.mall.domain.Cart;
 import cn.francis.mall.domain.Order;
+import cn.francis.mall.domain.OrderDetail;
 
 import java.util.List;
 
@@ -19,4 +20,8 @@ public interface OrderService {
     void submitOrder(Order order, List<Cart> cartList);
 
     List<Order> listOrder(Integer uId);
+
+    Order getOrder(Integer uId, String oId);
+
+    List<OrderDetail> listOrderDetail(String oid);
 }

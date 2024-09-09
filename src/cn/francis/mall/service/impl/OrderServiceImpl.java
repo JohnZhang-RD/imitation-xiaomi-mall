@@ -2,18 +2,18 @@ package cn.francis.mall.service.impl;
 
 import cn.francis.mall.dao.AddressDao;
 import cn.francis.mall.dao.CartDao;
+import cn.francis.mall.dao.GoodsDao;
 import cn.francis.mall.dao.OrderDao;
 import cn.francis.mall.dao.impl.AddressDaoImpl;
 import cn.francis.mall.dao.impl.CartDaoImpl;
+import cn.francis.mall.dao.impl.GoodsDaoImpl;
 import cn.francis.mall.dao.impl.OrderDaoImpl;
-import cn.francis.mall.domain.Address;
-import cn.francis.mall.domain.Cart;
-import cn.francis.mall.domain.Order;
-import cn.francis.mall.domain.OrderDetail;
+import cn.francis.mall.domain.*;
 import cn.francis.mall.service.OrderService;
 import cn.francis.mall.utils.DataSourceUtils;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -84,5 +84,27 @@ public class OrderServiceImpl implements OrderService {
             }
         }
         return orderList;
+    }
+
+    @Override
+    public Order getOrder(Integer uId, String oId) {
+        Order order = orderDao.getOrder(oId);
+
+        AddressDao addressDao = new AddressDaoImpl();
+        Address address = addressDao.getAddress(order.getAid());
+        order.setAddress(address);
+
+        return order;
+    }
+
+    @Override
+    public List<OrderDetail> listOrderDetail(String oid) {
+        List<OrderDetail> orderDetailList = orderDao.listOrderDetail(oid);
+        GoodsDao goodsDao = new GoodsDaoImpl();
+        for (OrderDetail orderDetail : orderDetailList) {
+            Goods goods = goodsDao.getGoods(orderDetail.getPid());
+            orderDetail.setGoods(goods);
+        }
+        return orderDetailList;
     }
 }

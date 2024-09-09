@@ -4,6 +4,7 @@ import cn.francis.mall.dao.AddressDao;
 import cn.francis.mall.domain.Address;
 import cn.francis.mall.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.SQLException;
@@ -27,6 +28,16 @@ public class AddressDaoImpl implements AddressDao {
         try {
             String sql = " SELECT * FROM tb_address WHERE uid = ? ";
             return queryRunner.query(sql, new BeanListHandler<>(Address.class), id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Address getAddress(Integer aid) {
+        String sql = " SELECT * FROM tb_address WHERE id = ? ";
+        try {
+            return queryRunner.query(sql, new BeanHandler<>(Address.class), aid);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -16,4 +16,6 @@ import java.util.List;
 
 public interface AddressDao {
     List<Address> listAddress(Integer id);
+
+    Address getAddress(Integer aid);
 }
