@@ -33,6 +33,7 @@ public class AutoFilter implements Filter {
         User user = (User) request.getSession().getAttribute("user");
         if (user != null) {
             filterChain.doFilter(request, response);
+            return;
         }
 
         Cookie[] cookies = request.getCookies();
