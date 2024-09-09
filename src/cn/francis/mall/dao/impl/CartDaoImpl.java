@@ -7,6 +7,7 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -77,11 +78,15 @@ public class CartDaoImpl implements CartDao {
 
     @Override
     public void deleteAllCart(Integer id) {
+        QueryRunner queryRunner1 = new QueryRunner();
+        Connection connection = DataSourceUtils.getConnection();
         String sql = " DELETE FROM tb_cart WHERE id = ? ";
         try {
-            queryRunner.update(sql, id);
+            queryRunner1.update(connection, sql, id);
         } catch (SQLException e) {
             throw new RuntimeException(e);
+        } finally {
+            DataSourceUtils.closeAll(null, null, connection);
         }
     }
 }

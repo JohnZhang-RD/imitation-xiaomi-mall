@@ -2,11 +2,16 @@ package cn.francis.mall.web.controller;
 
 import cn.francis.mall.domain.Address;
 import cn.francis.mall.domain.Cart;
+import cn.francis.mall.domain.Order;
 import cn.francis.mall.domain.User;
 import cn.francis.mall.service.AddressService;
 import cn.francis.mall.service.CartService;
+import cn.francis.mall.service.OrderService;
 import cn.francis.mall.service.impl.AddressServiceImpl;
 import cn.francis.mall.service.impl.CartServiceImpl;
+import cn.francis.mall.service.impl.OrderServiceImpl;
+import cn.francis.mall.utils.RandomUtils;
+import cn.francis.mall.utils.StringUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,6 +19,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -51,4 +58,41 @@ public class OrderServlet extends BaseServlet {
         }
     }
 
+    // "orderservlet?method=addOrder&aid="+$("#address").val()
+    public String addOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/login.jsp";
+        }
+
+        String aid = request.getParameter("aid");
+        if (StringUtils.isEmpty(aid)) {
+            request.setAttribute("msg", "地址信息为空");
+            return "/message.jsp";
+        }
+
+        try {
+            OrderService orderService = new OrderServiceImpl();
+            CartService cartService = new CartServiceImpl();
+            // 获取该用户全部商品
+            List<Cart> cartList = cartService.listCart(user.getId());
+            if (cartList == null || cartList.isEmpty()) {
+                request.setAttribute("msg", "购物车不能为空");
+                return "/message.jsp";
+            }
+            // 计算总金额
+            BigDecimal money = new BigDecimal(0);
+            for (Cart cart : cartList) {
+                money = money.add(cart.getMoney());
+            }
+            // 订单号生成
+            String oid = RandomUtils.createOrderId();
+            Order order = new Order(oid, user.getId(), money, "1", LocalDateTime.now(), Integer.parseInt(aid));
+            orderService.submitOrder(order, cartList);
+            return "/orderSuccess.jsp";
+        } catch (NumberFormatException e) {
+            request.setAttribute("msg", "订单添加失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
 }
