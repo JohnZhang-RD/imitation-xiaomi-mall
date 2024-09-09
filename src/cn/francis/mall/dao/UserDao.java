@@ -3,6 +3,8 @@ package cn.francis.mall.dao;
 import cn.francis.mall.domain.Address;
 import cn.francis.mall.domain.User;
 
+import java.util.List;
+
 /**
  * Name: UserDao
  * Package: cn.francis.mall.dao
@@ -21,4 +23,12 @@ public interface UserDao {
     int updateFlag(String email, String code);
 
     void insert(Address address);
+
+    List<Address> listAddress(Integer uid);
+
+    void deleteAddress(Integer uId, int addressId);
+
+    void updateDefaultAddress(Integer uId, Integer addId);
+
+    void updateAddress(Address address);
 }

@@ -96,14 +96,14 @@
 												</div>
 											</div>
 											<div class="form-group">
-												<label class="col-sm-2 control-label">收件人</label>
+												<label class="col-sm-2 control-label">收件地址</label>
 												<div class="col-sm-10">
 													<input type="text" name="detail" class="form-control" value="${address.detail}">
 												</div>
 											</div>
 											
 										</div>
-										<div class="motal-footer">
+										<div class="motal-footer text-center">
 											<button type="submit" class="btn btn-primary">修改</button>
 										</div>
 									</form>

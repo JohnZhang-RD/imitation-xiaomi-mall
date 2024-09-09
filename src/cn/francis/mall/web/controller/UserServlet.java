@@ -14,7 +14,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Name: UserServlet
@@ -76,6 +78,21 @@ public class UserServlet extends BaseServlet {
             return "/message.jsp";
         }
     }
+
+    // userservlet?method=logOut
+    public String logOut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        session.removeAttribute("user");
+        // 失效
+        session.invalidate();
+        // 删cookie
+        Cookie cookie = new Cookie("userInfo", "");
+        cookie.setPath(request.getContextPath());
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+        return "redirect:/index.jsp";
+    }
+
 
     public String register(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = request.getParameter("username");
@@ -173,11 +190,119 @@ public class UserServlet extends BaseServlet {
             Address address = new Address(null, detail, name, phone, user.getId(), 0);
             UserService userService = new UserServiceImpl();
             userService.saveAddress(address);
-            return "redirect:/cart.jsp";
+            List<Address> addList = userService.listAddress(user.getId());
+            request.setAttribute("addList", addList);
+            return "redirect:/userservlet?method=getAddress";
         } catch (Exception e) {
             request.setAttribute("msg", "地址添加失败" + e.getMessage());
             return "/message.jsp";
         }
 
+    }
+
+
+    // userservlet?method=getAddress
+    public String getAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/login.jsp";
+        }
+
+        try {
+            UserService userService = new UserServiceImpl();
+            List<Address> addList = userService.listAddress(user.getId());
+            request.setAttribute("addList", addList);
+            return "/self_info.jsp";
+        } catch (Exception e) {
+            request.setAttribute("msg", "地址查询失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // "userservlet?method=deleteAddress&id="+id
+    public String deleteAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        String addressId = request.getParameter("id");
+
+        if (StringUtils.isEmpty(addressId)) {
+            request.setAttribute("msg", "地址id为空");
+            return "/message.jsp";
+        }
+
+        try {
+            UserService userService = new UserServiceImpl();
+            userService.removeAddress(user.getId(), Integer.parseInt(addressId));
+            List<Address> addList = userService.listAddress(user.getId());
+            request.setAttribute("addList", addList);
+            return "redirect:/userservlet?method=getAddress";
+        } catch (Exception e) {
+            request.setAttribute("msg", "地址删除失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // "userservlet?method=defaultAddress&id="+id
+    public String defaultAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/login.jsp";
+        }
+        String addId = request.getParameter("id");
+        if (StringUtils.isEmpty(addId)) {
+            request.setAttribute("msg", "地址id为空");
+            return "/message.jsp";
+        }
+        try {
+            UserService userService = new UserServiceImpl();
+            userService.modifyDefaultAddress(user.getId(), Integer.parseInt(addId));
+            return "redirect:/userservlet?method=getAddress";
+        } catch (Exception e) {
+            request.setAttribute("msg", "设置默认地址失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // userservlet?method=updateAddress
+    public String updateAddress(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/login.jsp";
+        }
+        String addId = request.getParameter("id");
+        String level = request.getParameter("level");
+        String addName = request.getParameter("name");
+        String phone = request.getParameter("phone");
+        String detail = request.getParameter("detail");
+
+        if (StringUtils.isEmpty(addId)) {
+            request.setAttribute("msg", "地址id为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(addId)) {
+            request.setAttribute("msg", "地址默认等级为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(addId)) {
+            request.setAttribute("msg", "收货人姓名为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(addId)) {
+            request.setAttribute("msg", "电话号码为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(addId)) {
+            request.setAttribute("msg", "收获地址为空");
+            return "/message.jsp";
+        }
+        try {
+            Address address = new Address(Integer.parseInt(addId), detail, addName, phone, user.getId(), Integer.parseInt(level));
+
+            UserService userService = new UserServiceImpl();
+            userService.modifyAddress(address);
+            return "redirect:/userservlet?method=getAddress";
+        } catch (Exception e) {
+            request.setAttribute("msg", "更新地址信息失败" + e.getMessage());
+            return "/message.jsp";
+        }
     }
 }

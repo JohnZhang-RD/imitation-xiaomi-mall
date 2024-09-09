@@ -7,8 +7,10 @@ import cn.francis.mall.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Name: UserDaoImpl
@@ -57,6 +59,47 @@ public class UserDaoImpl implements UserDao {
     public void insert(Address address) {
         String sql = " INSERT INTO tb_address VALUES (null, ?, ?, ?, ?, ?) ";
         Object[] params = {address.getDetail(), address.getName(), address.getPhone(), address.getUid(), address.getLevel()};
+        try {
+            queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Address> listAddress(Integer uid) {
+        try {
+            String sql = " SELECT * FROM tb_address WHERE uid = ? ";
+            return queryRunner.query(sql, new BeanListHandler<>(Address.class), uid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteAddress(Integer uId, int addressId) {
+        String sql = " DELETE FROM tb_address WHERE uid = ? AND id = ? ";
+        try {
+            queryRunner.update(sql, uId, addressId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void updateDefaultAddress(Integer uId, Integer addId) {
+        try {
+            queryRunner.update(" UPDATE tb_address SET level = 0 WHERE uid = ? ", uId);
+            queryRunner.update(" UPDATE tb_address SET level = 1 WHERE uid = ? AND id = ? ", uId, addId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void updateAddress(Address address) {
+        String sql = " UPDATE tb_address SET detail = ?, name = ?, phone = ?, level = ? WHERE uid = ? AND id = ?; ";
+        Object[] params = {address.getDetail(), address.getName(), address.getPhone(), address.getLevel(), address.getUid(), address.getId()};
         try {
             queryRunner.update(sql, params);
         } catch (SQLException e) {

@@ -8,6 +8,8 @@ import cn.francis.mall.service.UserService;
 import cn.francis.mall.utils.EmailUtils;
 import cn.francis.mall.utils.MD5Utils;
 
+import java.util.List;
+
 /**
  * Name: UserServiceImpl
  * Package: cn.francis.mall.service.impl
@@ -60,5 +62,25 @@ public class UserServiceImpl implements UserService {
     @Override
     public void saveAddress(Address address) {
         userDao.insert(address);
+    }
+
+    @Override
+    public List<Address> listAddress(Integer uid) {
+        return userDao.listAddress(uid);
+    }
+
+    @Override
+    public void removeAddress(Integer uId, int addressId) {
+        userDao.deleteAddress(uId, addressId);
+    }
+
+    @Override
+    public void modifyDefaultAddress(Integer uId, Integer addId) {
+        userDao.updateDefaultAddress(uId, addId);
+    }
+
+    @Override
+    public void modifyAddress(Address address) {
+        userDao.updateAddress(address);
     }
 }
