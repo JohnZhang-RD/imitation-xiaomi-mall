@@ -5,9 +5,11 @@ import cn.francis.mall.domain.Order;
 import cn.francis.mall.domain.OrderDetail;
 import cn.francis.mall.utils.DataSourceUtils;
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.List;
 
 /**
  * Name: OrderDaoImpl
@@ -26,7 +28,7 @@ public class OrderDaoImpl implements OrderDao {
     public void insertOrder(Order order) {
         Connection connection = DataSourceUtils.getConnection();
         String sql = " INSERT INTO tb_order (id, uid, money, status, time, aid) VALUES (?, ?, ?, ?, ?, ?); ";
-        Object[] param = {order.getId(), order.getUid(), order.getMoney(), order.getStatus(), order.getDateTime(), order.getAid()};
+        Object[] param = {order.getId(), order.getUid(), order.getMoney(), order.getStatus(), order.getTime(), order.getAid()};
         try {
             queryRunner.update(connection, sql, param);
         } catch (SQLException e) {
@@ -47,6 +49,17 @@ public class OrderDaoImpl implements OrderDao {
             throw new RuntimeException(e);
         } finally {
             DataSourceUtils.closeAll(null, null, connection);
+        }
+    }
+
+    @Override
+    public List<Order> listOrder(Integer uId) {
+        Connection connection = DataSourceUtils.getConnection();
+        String sql = " SELECT * FROM tb_order WHERE uid = ? ";
+        try {
+            return queryRunner.query(connection, sql, new BeanListHandler<>(Order.class), uId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 }

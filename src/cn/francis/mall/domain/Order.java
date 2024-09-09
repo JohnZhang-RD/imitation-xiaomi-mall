@@ -25,6 +25,16 @@ public class Order {
     private Integer uid;
     private BigDecimal money;
     private String status;
-    private LocalDateTime dateTime;
+    private LocalDateTime time;
     private Integer aid;
+    private Address address;
+
+    public Order(String id, Integer uid, BigDecimal money, String status, LocalDateTime time, Integer aid) {
+        this.id = id;
+        this.uid = uid;
+        this.money = money;
+        this.status = status;
+        this.time = time;
+        this.aid = aid;
+    }
 }

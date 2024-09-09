@@ -7,6 +7,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>订单列表</title>
+	<link rel="stylesheet" type="text/css" href="css/login2.css">
 <link href="css/bootstrap.min.css" rel="stylesheet">
 <script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript">
@@ -23,7 +24,7 @@
 <div class="container" style="background-color: white;">
 	<div class="row" style="margin-left: 40px">
 		<h3>我的订单列表&nbsp;&nbsp;
-		<small>温馨提示：<em>${loginUser.username}</em>有<font color="red">${orderList.size()}</font>个订单</small></h3>
+		<small>温馨提示：<em>${user.username}</em>有<font color="red">${orderList.size()}</font>个订单</small></h3>
 	</div>
 	<div class="row" style="margin-top: 40px;">
 		<div class="col-md-12">
@@ -59,7 +60,7 @@
 						</font>
 					</th>
 					<th>${order.time}</th>
-					<th>${order.address}</th>
+					<th>${order.address.detail}</th>
 					<th>
 						<button type="button" class="btn btn-danger btn-sm" onclick="showOrder('${order.id}')">订单详情</button>
 						<c:if test="${order.status eq 3 }">

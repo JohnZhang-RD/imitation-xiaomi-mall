@@ -1,9 +1,12 @@
 package cn.francis.mall.service.impl;
 
+import cn.francis.mall.dao.AddressDao;
 import cn.francis.mall.dao.CartDao;
 import cn.francis.mall.dao.OrderDao;
+import cn.francis.mall.dao.impl.AddressDaoImpl;
 import cn.francis.mall.dao.impl.CartDaoImpl;
 import cn.francis.mall.dao.impl.OrderDaoImpl;
+import cn.francis.mall.domain.Address;
 import cn.francis.mall.domain.Cart;
 import cn.francis.mall.domain.Order;
 import cn.francis.mall.domain.OrderDetail;
@@ -12,6 +15,7 @@ import cn.francis.mall.utils.DataSourceUtils;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Name: OrderServiceImpl
@@ -58,5 +62,27 @@ public class OrderServiceImpl implements OrderService {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    @Override
+    public List<Order> listOrder(Integer uId) {
+        List<Order> orderList = orderDao.listOrder(uId);
+        if (orderList == null || orderList.isEmpty()) {
+            throw new RuntimeException("无订单");
+        }
+        // 获取地址列表
+        AddressDao addressDao = new AddressDaoImpl();
+        List<Address> addressList = addressDao.listAddress(uId);
+        if (addressList == null) {
+            throw new RuntimeException("无收获地址");
+        }
+        for (Order order : orderList) {
+            for (Address address : addressList) {
+                if (Objects.equals(order.getAid(), address.getId())) {
+                    order.setAddress(address);
+                }
+            }
+        }
+        return orderList;
     }
 }

@@ -95,4 +95,22 @@ public class OrderServlet extends BaseServlet {
             return "/message.jsp";
         }
     }
+
+    // orderservlet?method=getOrderList
+    public String getOrderList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/login.jsp";
+        }
+
+        try {
+            OrderService orderService = new OrderServiceImpl();
+            List<Order> orderList = orderService.listOrder(user.getId());
+            request.setAttribute("orderList", orderList);
+            return "/orderList.jsp";
+        } catch (Exception e) {
+            request.setAttribute("msg", "查询订单失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
 }

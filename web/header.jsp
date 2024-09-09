@@ -40,7 +40,7 @@
        				<li>|</li>
        				<a href="userservlet?method=logOut" id="a_top">退出</a>
        				<li>|</li>
-       				<a href="getOrderList" id="a_top">我的订单</a>
+       				<a href="orderservlet?method=getOrderList" id="a_top">我的订单</a>
        				<li>|</li>
        				<a href="userservlet?method=getAddress" id="a_top">地址管理</a>
        			</c:if>

@@ -17,4 +17,6 @@ import java.util.List;
 
 public interface OrderService {
     void submitOrder(Order order, List<Cart> cartList);
+
+    List<Order> listOrder(Integer uId);
 }
