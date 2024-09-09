@@ -95,4 +95,15 @@ public class UserDaoImpl implements UserDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void updateAddress(Address address) {
+        String sql = " UPDATE tb_address SET detail = ?, name = ?, phone = ?, level = ? WHERE uid = ? AND id = ?; ";
+        Object[] params = {address.getDetail(), address.getName(), address.getPhone(), address.getLevel(), address.getUid(), address.getId()};
+        try {
+            queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

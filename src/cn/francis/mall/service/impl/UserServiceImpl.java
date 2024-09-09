@@ -78,4 +78,9 @@ public class UserServiceImpl implements UserService {
     public void modifyDefaultAddress(Integer uId, Integer addId) {
         userDao.updateDefaultAddress(uId, addId);
     }
+
+    @Override
+    public void modifyAddress(Address address) {
+        userDao.updateAddress(address);
+    }
 }

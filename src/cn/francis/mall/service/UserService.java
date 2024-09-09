@@ -31,4 +31,6 @@ public interface UserService {
     void removeAddress(Integer uId, int addressId);
 
     void modifyDefaultAddress(Integer uId, Integer addId);
+
+    void modifyAddress(Address address);
 }

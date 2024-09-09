@@ -29,4 +29,6 @@ public interface UserDao {
     void deleteAddress(Integer uId, int addressId);
 
     void updateDefaultAddress(Integer uId, Integer addId);
+
+    void updateAddress(Address address);
 }
