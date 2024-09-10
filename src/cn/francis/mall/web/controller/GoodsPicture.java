@@ -57,7 +57,7 @@ public class GoodsPicture extends BaseServlet {
             outputStream = response.getOutputStream();
             byte[] buffer = new byte[1024 * 8];
             int len;
-            if ((len = fileInputStream.read(buffer)) != -1) {
+            while ((len = fileInputStream.read(buffer)) != -1) {
                 outputStream.write(buffer, 0, len);
             }
         } catch (Exception e) {
