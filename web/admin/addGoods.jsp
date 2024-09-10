@@ -14,7 +14,7 @@
 </head>
 <body>
 	<div class="row" style="margin-left: 20px;">
-		<form action="${pageContext.request.contextPath }/addGoods" method="post" enctype="multipart/form-data">
+		<form action="${pageContext.request.contextPath }/goodsservlet?method=addGoods" method="post" enctype="multipart/form-data">
 			<div>
 				<h3>新增商品</h3>
 			</div>

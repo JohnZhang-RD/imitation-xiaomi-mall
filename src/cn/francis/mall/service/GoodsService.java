@@ -20,4 +20,6 @@ public interface GoodsService {
     PageBean<Goods> findByPage(int pageNumDefault, int pageSizeDefault, String where, List<Object> params);
 
     Goods getGoods(int id);
+
+    List<Goods> listGoods();
 }

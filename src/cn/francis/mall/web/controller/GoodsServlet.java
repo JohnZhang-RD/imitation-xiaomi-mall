@@ -10,7 +10,10 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,5 +100,52 @@ public class GoodsServlet extends BaseServlet {
             request.setAttribute("msg", "查询失败" + e.getMessage());
             return "/message.jsp";
         }
+    }
+
+    /* ================================= 后台内容 =================================*/
+
+    // goodsservlet?method=getGoodsList
+    public String getGoodsList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 检查登录
+
+        try {
+            // 暂时不做分页
+            GoodsService goodsService = new GoodsServiceImpl();
+            List<Goods> goodsList = goodsService.listGoods();
+            request.setAttribute("goodsList", goodsList);
+            return "admin/showGoods.jsp";
+        } catch (Exception e) {
+            request.setAttribute("msg", "获取商品失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // goodsservlet?method=addGoods
+    public String addGoods(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String name = request.getParameter("name");
+
+        String typeidStr = request.getParameter("typeid");
+        int typeid = Integer.parseInt(typeidStr);
+
+        String pubdateStr = request.getParameter("pubdate");
+        LocalDateTime pubdate = LocalDateTime.parse(pubdateStr);
+
+        String priceStr = request.getParameter("price");
+        BigDecimal price = new BigDecimal(priceStr);
+
+        String starStr = request.getParameter("star");
+        int star = Integer.parseInt(starStr);
+
+        String intro = request.getParameter("intro");
+
+        Part picture = request.getPart("picture");
+        String submittedFileName = picture.getSubmittedFileName();
+
+        List<String> limitEnd = new ArrayList<>();
+        limitEnd.add(".jpg");
+        limitEnd.add(".png");
+
+
+        return null;
     }
 }

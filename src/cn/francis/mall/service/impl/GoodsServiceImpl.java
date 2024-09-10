@@ -10,6 +10,7 @@ import cn.francis.mall.service.GoodsService;
 import cn.francis.mall.service.GoodsTypeService;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Name: GoodsServiceImpl
@@ -41,6 +42,21 @@ public class GoodsServiceImpl implements GoodsService {
             goods.setGoodsType(goodsType);
         }
         return goods;
+    }
+
+    @Override
+    public List<Goods> listGoods() {
+        List<Goods> goodsList = goodsDao.listGoods();
+        GoodsTypeService goodsTypeService = new GoodsTypeServiceImpl();
+        List<GoodsType> goodsTypeList = goodsTypeService.listGoodsType();
+        for (Goods goods : goodsList) {
+            for (GoodsType goodsType : goodsTypeList) {
+                if (Objects.equals(goods.getTypeid(), goodsType.getId())) {
+                    goods.setGoodsType(goodsType);
+                }
+            }
+        }
+        return goodsList;
     }
 
 }

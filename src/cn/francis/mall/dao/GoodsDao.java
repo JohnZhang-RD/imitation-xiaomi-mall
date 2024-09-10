@@ -22,4 +22,5 @@ public interface GoodsDao {
 
     Goods getGoods(int id);
 
+    List<Goods> listGoods();
 }
