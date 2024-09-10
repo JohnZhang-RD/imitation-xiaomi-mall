@@ -29,4 +29,9 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
     public GoodsType getGoodsType(Integer typeid) {
         return goodsTypeDao.getGoodsType(typeid);
     }
+
+    @Override
+    public List<GoodsType> listGoodsType() {
+        return goodsTypeDao.listGoodsType();
+    }
 }

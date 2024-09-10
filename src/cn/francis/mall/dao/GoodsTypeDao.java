@@ -18,4 +18,6 @@ public interface GoodsTypeDao {
     List<GoodsType> select(int i);
 
     GoodsType getGoodsType(Integer typeid);
+
+    List<GoodsType> listGoodsType();
 }

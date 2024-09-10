@@ -22,7 +22,7 @@
 			添加商品种类
 		</div>
 		<div class="panel-body">
-			<form action="${pageContext.request.contextPath }/addGoodsType" method="post">
+			<form action="${pageContext.request.contextPath }/goodstypeservlet?method=addGoodsType" method="post">
 				<div class="row">
 					<div class="form-group form-inline">
 						<span>所属种类</span>
