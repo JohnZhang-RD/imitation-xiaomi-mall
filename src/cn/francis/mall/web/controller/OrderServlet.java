@@ -1,9 +1,6 @@
 package cn.francis.mall.web.controller;
 
-import cn.francis.mall.domain.Address;
-import cn.francis.mall.domain.Cart;
-import cn.francis.mall.domain.Order;
-import cn.francis.mall.domain.User;
+import cn.francis.mall.domain.*;
 import cn.francis.mall.service.AddressService;
 import cn.francis.mall.service.CartService;
 import cn.francis.mall.service.OrderService;
@@ -112,5 +109,41 @@ public class OrderServlet extends BaseServlet {
             request.setAttribute("msg", "查询订单失败" + e.getMessage());
             return "/message.jsp";
         }
+    }
+
+    // orderservlet?method=getOrderDetail&oid="+orderId
+    public String getOrderDetail(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/login.jsp";
+        }
+        String oid = request.getParameter("oid");
+        if (StringUtils.isEmpty(oid)) {
+            request.setAttribute("msg", "订单id不能为空");
+            return "/message.jsp";
+        }
+        try {
+            // 根据用户id和订单号拿到订单信息和该订单内的商品信息
+            OrderService orderService = new OrderServiceImpl();
+            Order order = orderService.getOrder(user.getId(), oid);
+
+            // 商品详细信息
+            List<OrderDetail> orderDetailList = orderService.listOrderDetail(oid);
+
+            request.setAttribute("order", order);
+            request.setAttribute("list", orderDetailList);
+
+            return "/orderDetail.jsp";
+        } catch (NumberFormatException e) {
+            request.setAttribute("msg", "查询订单详情失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+
+    // orderservlet?method=changeStatus&oid="+orderId
+    public String changeStatus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+//        List<OrderDetail> orderDetailList =
+        return null;
     }
 }
