@@ -4,16 +4,20 @@ import cn.francis.mall.domain.Goods;
 import cn.francis.mall.domain.PageBean;
 import cn.francis.mall.service.GoodsService;
 import cn.francis.mall.service.impl.GoodsServiceImpl;
+import cn.francis.mall.utils.FileUtils;
 import cn.francis.mall.utils.StringUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +32,7 @@ import java.util.List;
  */
 
 @WebServlet("/goodsservlet")
+@MultipartConfig(maxFileSize = 5 * 1024 * 1024, maxRequestSize = 20 * 1024 * 1024)
 public class GoodsServlet extends BaseServlet {
 
     public String getGoodsListByTypeId(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -122,30 +127,86 @@ public class GoodsServlet extends BaseServlet {
 
     // goodsservlet?method=addGoods
     public String addGoods(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
+        String name = request.getParameter("gname");
+        if (StringUtils.isEmpty(name)) {
+            request.setAttribute("msg", "商品名称为空");
+            return "/message.jsp";
+        }
 
         String typeidStr = request.getParameter("typeid");
+        if (StringUtils.isEmpty(typeidStr)) {
+            request.setAttribute("msg", "商品类型为空");
+            return "/message.jsp";
+        }
         int typeid = Integer.parseInt(typeidStr);
 
         String pubdateStr = request.getParameter("pubdate");
-        LocalDateTime pubdate = LocalDateTime.parse(pubdateStr);
+        pubdateStr = pubdateStr + " 00:00:00";
+        if (StringUtils.isEmpty(pubdateStr)) {
+            request.setAttribute("msg", "发布时间为空");
+            return "/message.jsp";
+        }
+        LocalDateTime pubdate = LocalDateTime.parse(pubdateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+//        LocalDateTime pubdate = LocalDateTime.parse(pubdateStr);
 
         String priceStr = request.getParameter("price");
+        if (StringUtils.isEmpty(priceStr)) {
+            request.setAttribute("msg", "价格为空");
+            return "/message.jsp";
+        }
         BigDecimal price = new BigDecimal(priceStr);
 
         String starStr = request.getParameter("star");
+        if (StringUtils.isEmpty(starStr)) {
+            request.setAttribute("msg", "评分为空");
+            return "/message.jsp";
+        }
         int star = Integer.parseInt(starStr);
 
         String intro = request.getParameter("intro");
+        if (StringUtils.isEmpty(intro)) {
+            request.setAttribute("msg", "介绍为空");
+            return "/message.jsp";
+        }
 
         Part picture = request.getPart("picture");
+        if (picture == null) {
+            request.setAttribute("msg", "图片为空");
+            return "/message.jsp";
+        }
         String submittedFileName = picture.getSubmittedFileName();
 
         List<String> limitEnd = new ArrayList<>();
-        limitEnd.add(".jpg");
-        limitEnd.add(".png");
+        limitEnd.add("jpg");
+        limitEnd.add("png");
 
+        try {
+            String basePath = this.getServletContext().getRealPath("WEB-INF/goods/covers");
+            File dir = new File(basePath);
+            if (!dir.exists()) {
+                dir.mkdirs();
+            }
+            // 过滤
+            String end = submittedFileName.substring(submittedFileName.lastIndexOf(".") + 1);
+            System.out.println(end);
+            if (!limitEnd.contains(end)) {
+                request.setAttribute("msg", "文件格式不正确");
+                return "/message.jsp";
+            }
 
-        return null;
+            String uuidFilename = FileUtils.makeFilename(submittedFileName);
+            String realPath = FileUtils.makePath(basePath, submittedFileName);
+//            String finalPath = realPath + File.separator + uuidFilename;
+            picture.write(realPath + File.separator + uuidFilename);
+            picture.delete();
+
+            Goods goods = new Goods(0, name, pubdate, uuidFilename, price, star, intro, typeid);
+            GoodsService goodsService = new GoodsServiceImpl();
+            goodsService.saveGoods(goods);
+            return "redirect:/goodsservlet?method=getGoodsList";
+        } catch (IOException e) {
+            request.setAttribute("msg", "商品存储失败" + e.getMessage());
+            return "/message.jsp";
+        }
     }
 }

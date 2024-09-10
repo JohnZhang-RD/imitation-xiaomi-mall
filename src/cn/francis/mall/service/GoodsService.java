@@ -22,4 +22,6 @@ public interface GoodsService {
     Goods getGoods(int id);
 
     List<Goods> listGoods();
+
+    void saveGoods(Goods goods);
 }

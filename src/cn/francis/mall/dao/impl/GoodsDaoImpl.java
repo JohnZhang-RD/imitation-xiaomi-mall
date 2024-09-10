@@ -67,4 +67,15 @@ public class GoodsDaoImpl implements GoodsDao {
         }
     }
 
+    @Override
+    public void insertGoods(Goods goods) {
+        String sql = " INSERT INTO tb_goods (name, pubdate, picture, price, star, intro, typeid) VALUES (?, ?, ?, ?, ?, ?, ?) ";
+        Object[] params = {goods.getName(), goods.getPubdate(), goods.getPicture(), goods.getPrice(), goods.getStar(), goods.getIntro(), goods.getTypeid()};
+        try {
+            queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
