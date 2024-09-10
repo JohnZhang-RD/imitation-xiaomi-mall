@@ -8,6 +8,8 @@ import cn.francis.mall.service.impl.UserServiceImpl;
 import cn.francis.mall.utils.Base64Utils;
 import cn.francis.mall.utils.RandomUtils;
 import cn.francis.mall.utils.StringUtils;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -302,6 +305,105 @@ public class UserServlet extends BaseServlet {
             return "redirect:/userservlet?method=getAddress";
         } catch (Exception e) {
             request.setAttribute("msg", "更新地址信息失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    /* ================================= 后台内容 =================================*/
+    //    /adminLogin
+    public String adminLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 检查是否登录
+
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        if (StringUtils.isEmpty(username)) {
+            request.setAttribute("msg", "用户名为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(password)) {
+            request.setAttribute("msg", "密码为空");
+            return "/message.jsp";
+        }
+        try {
+            UserService userService = new UserServiceImpl();
+            User admin = userService.login(username, password);
+            request.setAttribute("admin", admin);
+            return "/admin/admin.jsp";
+        } catch (Exception e) {
+            request.setAttribute("msg", "查询用户失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // getUserList
+    public String getUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json;charset=UTF-8");
+        // 判断是否登录
+
+        try {
+            UserService userService = new UserServiceImpl();
+            List<User> userList = userService.listUser();
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.addAll(userList);
+
+            response.getWriter().write(String.valueOf(jsonArray));
+            return null;
+        } catch (IOException e) {
+            request.setAttribute("msg", "查询用户失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // userservlet?method=searchUser&username="+username+"&gender="+gender
+    // userservlet?method=searchUser&username=ad
+    public String searchUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("application/json;charset=UTF-8");
+        String username = request.getParameter("username");
+        String gender = request.getParameter("gender");
+
+        StringBuilder where = new StringBuilder(" where 1 = 1 ");
+        List<Object> params = new ArrayList<>();
+
+        if (!StringUtils.isEmpty(username)) {
+            where.append(" and username like ? ");
+            params.add("%" + username + "%");
+        }
+        if (!StringUtils.isEmpty(gender)) {
+            where.append(" and gender = ? ");
+            params.add(gender);
+        }
+        if (params.isEmpty()) {
+            return "admin/userList.jsp";
+        }
+
+        try {
+            UserService userService = new UserServiceImpl();
+            List<User> userList = userService.listUser(where.toString(), params);
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.addAll(userList);
+            response.getWriter().write(String.valueOf(jsonArray));
+            return null;
+//            return "admin/userList.jsp";
+        } catch (Exception e) {
+            request.setAttribute("msg", "查询用户失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // userservlet?method=deleteUser?id="+id
+    public String deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        String uid = request.getParameter("id");
+        if (StringUtils.isEmpty(uid)) {
+            request.setAttribute("msg", "用户id不能为空");
+            return "/message.jsp";
+        }
+        try {
+            UserService userService = new UserServiceImpl();
+            // FIXME 删除用户时级联删除用户地址
+            userService.removeUser(Integer.parseInt(uid));
+            return null;
+        } catch (Exception e) {
+            request.setAttribute("msg", "删除用户失败" + e.getMessage());
             return "/message.jsp";
         }
     }

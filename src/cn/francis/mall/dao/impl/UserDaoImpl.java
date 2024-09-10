@@ -106,4 +106,34 @@ public class UserDaoImpl implements UserDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<User> listUser() {
+        try {
+            String sql = " SELECT * FROM tb_user ";
+            return queryRunner.query(sql, new BeanListHandler<>(User.class));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<User> listUser(String where, List<Object> params) {
+        String sql = " SELECT * FROM tb_user " + where;
+        try {
+            return queryRunner.query(sql, new BeanListHandler<>(User.class), params.toArray());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void deleteUser(Integer uid) {
+        String sql = " DELETE FROM tb_user WHERE id = ? ";
+        try {
+            queryRunner.update(sql, uid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -31,4 +31,10 @@ public interface UserDao {
     void updateDefaultAddress(Integer uId, Integer addId);
 
     void updateAddress(Address address);
+
+    List<User> listUser();
+
+    List<User> listUser(String where, List<Object> params);
+
+    void deleteUser(Integer uid);
 }

@@ -83,4 +83,19 @@ public class UserServiceImpl implements UserService {
     public void modifyAddress(Address address) {
         userDao.updateAddress(address);
     }
+
+    @Override
+    public List<User> listUser() {
+        return userDao.listUser();
+    }
+
+    @Override
+    public List<User> listUser(String where, List<Object> params) {
+        return userDao.listUser(where, params);
+    }
+
+    @Override
+    public void removeUser(Integer uid) {
+        userDao.deleteUser(uid);
+    }
 }

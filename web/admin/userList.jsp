@@ -20,7 +20,7 @@
 	//连接servlet 获取 数据
 	function loadUser(){
 		$.ajax({
-			url:"${pageContext.request.contextPath}/getUserList",
+			url:"${pageContext.request.contextPath}/userservlet?method=getUserList",
 			method:"get",
 			success:function(data){
 				showMsg(data);
@@ -32,7 +32,9 @@
 	}
 	//显示用户信息
 	function showMsg(data){
-		var list = JSON.parse(data);
+		// var list = JSON.parse(data);
+		var list = data;
+		console.log(list);
 		$("#tb_list").html("<tr class='tr_head'><td>编号</td><td>邮箱</td><td>姓名</td><td>性别</td><td>类别</td><td>操作</td></tr>");
 		var i = 1;
 		for(var u in list){
@@ -59,7 +61,7 @@
 	function delUser(id){
 		if(confirm("确认要删除吗?")){
 			$.ajax({
-				url:"${pageContext.request.contextPath}/deleteUser?id="+id,
+				url:"${pageContext.request.contextPath}/userservlet?method=deleteUser&id="+id,
 				method:"get",
 				success:function(data){
 					loadUser();
@@ -84,7 +86,7 @@
 			}
 			//使用ajax 进行异步交互
 			$.ajax({
-				url:"${pageContext.request.contextPath}/searchUser?username="+username+"&gender="+gender,
+				url:"${pageContext.request.contextPath}/userservlet?method=searchUser&username="+username+"&gender="+gender,
 				method:"post",
 				success:function(data){
 					if(data==0){

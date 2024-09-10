@@ -33,4 +33,10 @@ public interface UserService {
     void modifyDefaultAddress(Integer uId, Integer addId);
 
     void modifyAddress(Address address);
+
+    List<User> listUser();
+
+    List<User> listUser(String where, List<Object> params);
+
+    void removeUser(Integer uid);
 }

@@ -129,7 +129,7 @@
 		<div class="page_main">
 			<script type="text/javascript">
 				$("#showUser").click(function(){
-					$(".dv_content").attr("src","userList.jsp");
+					$(".dv_content").attr("src","admin/userList.jsp");
 				})
 				$("#showGoodsType").click(function(){
 					$(".dv_content").attr("src","${pageContext.request.contextPath}/getGoodsType?flag=show");
