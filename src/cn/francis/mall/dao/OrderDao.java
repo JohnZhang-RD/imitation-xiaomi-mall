@@ -27,4 +27,6 @@ public interface OrderDao {
     List<OrderDetail> getOrderDetail(String oId);
 
     List<OrderDetail> listOrderDetail(String oid);
+
+    List<Order> listOrder();
 }

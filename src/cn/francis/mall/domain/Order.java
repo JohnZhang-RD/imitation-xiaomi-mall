@@ -29,6 +29,7 @@ public class Order {
     private LocalDateTime time;
     private Integer aid;
     private Address address;
+    private User user;
 
     public Order(String id, Integer uid, BigDecimal money, String status, LocalDateTime time, Integer aid) {
         this.id = id;
@@ -37,5 +38,15 @@ public class Order {
         this.status = status;
         this.time = time;
         this.aid = aid;
+    }
+
+    public Order(String id, Integer uid, BigDecimal money, String status, LocalDateTime time, Integer aid, Address address) {
+        this.id = id;
+        this.uid = uid;
+        this.money = money;
+        this.status = status;
+        this.time = time;
+        this.aid = aid;
+        this.address = address;
     }
 }

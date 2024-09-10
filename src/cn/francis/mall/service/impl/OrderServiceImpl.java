@@ -10,6 +10,7 @@ import cn.francis.mall.dao.impl.GoodsDaoImpl;
 import cn.francis.mall.dao.impl.OrderDaoImpl;
 import cn.francis.mall.domain.*;
 import cn.francis.mall.service.OrderService;
+import cn.francis.mall.service.UserService;
 import cn.francis.mall.utils.DataSourceUtils;
 
 import java.sql.SQLException;
@@ -106,5 +107,26 @@ public class OrderServiceImpl implements OrderService {
             orderDetail.setGoods(goods);
         }
         return orderDetailList;
+    }
+
+    @Override
+    public List<Order> listOrder() {
+        List<Order> orderList = orderDao.listOrder();
+        UserService userService = new UserServiceImpl();
+        List<User> userList = userService.listUser();
+        if (orderList == null || orderList.isEmpty()) {
+            throw new RuntimeException();
+        }
+        if (userList == null || userList.isEmpty()) {
+            throw new RuntimeException();
+        }
+        for (Order order : orderList) {
+            for (User user : userList) {
+                if (Objects.equals(order.getUid(), user.getId())) {
+                    order.setUser(user);
+                }
+            }
+        }
+        return orderList;
     }
 }

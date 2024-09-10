@@ -24,4 +24,6 @@ public interface OrderService {
     Order getOrder(Integer uId, String oId);
 
     List<OrderDetail> listOrderDetail(String oid);
+
+    List<Order> listOrder();
 }

@@ -146,4 +146,21 @@ public class OrderServlet extends BaseServlet {
 //        List<OrderDetail> orderDetailList =
         return null;
     }
+
+    /* ================================= 后台内容 =================================*/
+
+    // orderservlet?method=getAllOrder
+    public String getAllOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 登录校验
+
+        try {
+            OrderService orderService = new OrderServiceImpl();
+            List<Order> orderList = orderService.listOrder();
+            request.setAttribute("orderList", orderList);
+            return "/admin/showAllOrder.jsp";
+        } catch (Exception e) {
+            request.setAttribute("msg", "获取全部订单失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
 }

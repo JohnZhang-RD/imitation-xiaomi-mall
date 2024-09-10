@@ -144,7 +144,7 @@
 					$(".dv_content").attr("src","/admin/addGoods.jsp");
 				})
 				$("#showOrder").click(function(){
-					$(".dv_content").attr("src","${pageContext.request.contextPath}/getAllOrder");
+					$(".dv_content").attr("src","${pageContext.request.contextPath}/orderservlet?method=getAllOrder");
 				})
 			</script>
 			<iframe class="dv_content" frameborder="0" scrolling="no">

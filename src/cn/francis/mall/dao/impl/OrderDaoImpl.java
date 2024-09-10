@@ -96,4 +96,15 @@ public class OrderDaoImpl implements OrderDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Order> listOrder() {
+        Connection connection = DataSourceUtils.getConnection();
+        String sql = " SELECT * FROM tb_order ";
+        try {
+            return queryRunner.query(connection, sql, new BeanListHandler<>(Order.class));
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
