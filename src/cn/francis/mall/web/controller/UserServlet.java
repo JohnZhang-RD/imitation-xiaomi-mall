@@ -423,7 +423,6 @@ public class UserServlet extends BaseServlet {
         }
         try {
             UserService userService = new UserServiceImpl();
-            // FIXME 删除用户时级联删除用户地址
             userService.removeUser(Integer.parseInt(uid));
             return null;
         } catch (Exception e) {
