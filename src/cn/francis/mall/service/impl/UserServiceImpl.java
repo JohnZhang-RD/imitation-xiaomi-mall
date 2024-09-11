@@ -85,8 +85,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> listUser() {
-        return userDao.listUser();
+    public List<User> listUser(Integer flag) {
+        return userDao.listUser(flag);
     }
 
     @Override

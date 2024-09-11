@@ -34,7 +34,7 @@ public interface UserService {
 
     void modifyAddress(Address address);
 
-    List<User> listUser();
+    List<User> listUser(Integer flag);
 
     List<User> listUser(String where, List<Object> params);
 

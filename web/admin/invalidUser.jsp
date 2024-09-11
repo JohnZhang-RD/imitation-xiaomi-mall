@@ -36,7 +36,7 @@
 			var td3 = $("<td>" + data[u].username + "</td>");
 			var td4 = $("<td>" + data[u].gender + "</td>");
 			var td5 = $("<td>" + (data[u].role==0 ? "管理员" : "会员") + "</td>");
-			var td6 = $("<td><a href='javascript:delUser(" + list[u].id + ")' class='btn btn-danger btn-xs'>删除</a></td>");
+			var td6 = $("<td><a href='javascript:delUser(" + data[u].id + ")' class='btn btn-danger btn-xs'>删除</a></td>");
 
 			tr.append(td1);
 			tr.append(td2);
@@ -47,6 +47,48 @@
 			$("#tb_list").append(tr);
 		}
 	}
+	function delUser(id) {
+		if (confirm("确认要删除吗?")) {
+			$.ajax({
+				url: "${pageContext.request.contextPath}/userservlet?method=deleteUser&id=" + id,
+				method: "get",
+				success: function () {
+					loadInvalidUser();
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert("失败"+XMLHttpRequest.status+":"+textStatus+":"+errorThrown);
+				}
+			})
+		}
+	}
+	$(function () {
+		$("#search").click(function () {
+			var username = $("input[name='username']").val();
+			var genders = $("input[name='gender']");
+			var gender = "";
+			for (var i = 0;i < genders.length; i++) {
+				if (genders[i].checked) {
+					gender += genders[i].value;
+				}
+			}
+			$.ajax({
+				url:"${pageContext.request.contextPath}/userservlet?method=searchUser&username="+username+"&gender="+gender+"&flag="+0,
+				method: "post",
+				success: function (data) {
+					if (data === 0) {
+						alert("未找到指定内容");
+						$("input[name='username']").val("");
+						$("input[name='gender']").removeAttr("checked");
+					} else {
+						showMsg(data);
+					}
+				},
+				error: function (XMLHttpRequest, textStatus, errorThrown) {
+					alert("失败"+XMLHttpRequest.status+":"+textStatus+":"+errorThrown);
+				}
+			})
+		})
+	})
 </script>
 
 </head>

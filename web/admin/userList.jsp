@@ -45,7 +45,7 @@
 			var td3 = $("<td>"+list[u].username+"</td>");
 			var td4 = $("<td>"+list[u].gender+"</td>");
 			var td5 = $("<td>"+(list[u].role==0?"管理员":"会员")+"</td>");
-			var td6 = $("<td><a href='javascript:delUser("+list[u].id+")' class='btn btn-primary btn-xs'>删除</a></td>");
+			var td6 = $("<td><a href='javascript:delUser("+list[u].id+")' class='btn btn-danger btn-xs'>删除</a></td>");
 			
 			//将td 添加到tr中
 			tr.append(td1);
@@ -86,10 +86,10 @@
 			}
 			//使用ajax 进行异步交互
 			$.ajax({
-				url:"${pageContext.request.contextPath}/userservlet?method=searchUser&username="+username+"&gender="+gender,
+				url:"${pageContext.request.contextPath}/userservlet?method=searchUser&username="+username+"&gender="+gender+"&flag="+1,
 				method:"post",
 				success:function(data){
-					if(data==0){
+					if(data===0){
 						alert("未找到指定内容");
 						$("input[name='username']").val("");
 						$("input[name='gender']").removeAttr("checked");

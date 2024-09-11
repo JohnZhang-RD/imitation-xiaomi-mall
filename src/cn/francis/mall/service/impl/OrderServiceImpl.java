@@ -14,7 +14,6 @@ import cn.francis.mall.service.UserService;
 import cn.francis.mall.utils.DataSourceUtils;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -111,9 +110,10 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public List<Order> listOrder() {
+        int flag = 1;
         List<Order> orderList = orderDao.listOrder();
         UserService userService = new UserServiceImpl();
-        List<User> userList = userService.listUser();
+        List<User> userList = userService.listUser(flag);
         if (orderList == null || orderList.isEmpty()) {
             throw new RuntimeException();
         }

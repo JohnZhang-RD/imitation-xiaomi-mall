@@ -108,10 +108,10 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public List<User> listUser() {
+    public List<User> listUser(Integer flag) {
         try {
-            String sql = " SELECT * FROM tb_user ";
-            return queryRunner.query(sql, new BeanListHandler<>(User.class));
+            String sql = " SELECT * FROM tb_user WHERE flag = ?";
+            return queryRunner.query(sql, new BeanListHandler<>(User.class), flag);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

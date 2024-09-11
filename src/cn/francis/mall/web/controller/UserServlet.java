@@ -8,7 +8,6 @@ import cn.francis.mall.service.impl.UserServiceImpl;
 import cn.francis.mall.utils.Base64Utils;
 import cn.francis.mall.utils.RandomUtils;
 import cn.francis.mall.utils.StringUtils;
-import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONArray;
 
 import javax.servlet.ServletException;
@@ -348,7 +347,8 @@ public class UserServlet extends BaseServlet {
         }
         try {
             UserService userService = new UserServiceImpl();
-            List<User> userList = userService.listUser();
+            int flag = 1;
+            List<User> userList = userService.listUser(flag);
             JSONArray jsonArray = new JSONArray();
             jsonArray.addAll(userList);
 
@@ -360,7 +360,7 @@ public class UserServlet extends BaseServlet {
         }
     }
 
-    // userservlet?method=searchUser&username="+username+"&gender="+gender
+    // userservlet?method=searchUser&username="+username+"&gender="+gender+"&flag="+flag
     // userservlet?method=searchUser&username=ad
     public String searchUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
@@ -372,6 +372,8 @@ public class UserServlet extends BaseServlet {
 
         String username = request.getParameter("username");
         String gender = request.getParameter("gender");
+        String flagStr = request.getParameter("flag");
+        int flag = Integer.parseInt(flagStr);
 
         StringBuilder where = new StringBuilder(" where 1 = 1 ");
         List<Object> params = new ArrayList<>();
@@ -383,6 +385,10 @@ public class UserServlet extends BaseServlet {
         if (!StringUtils.isEmpty(gender)) {
             where.append(" and gender = ? ");
             params.add(gender);
+        }
+        if (!StringUtils.isEmpty(flagStr)) {
+            where.append(" and flag = ?");
+            params.add(flag);
         }
         if (params.isEmpty()) {
             return "admin/userList.jsp";
@@ -427,4 +433,23 @@ public class UserServlet extends BaseServlet {
     }
 
     // userservlet?method=getInvalidUserList
+    public String getInvalidUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/login.jsp";
+        }
+        response.setContentType("application/json;charset=UTF-8");
+        try {
+            UserService userService = new UserServiceImpl();
+            int flag = 0;
+            List<User> userList = userService.listUser(flag);
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.addAll(userList);
+            response.getWriter().write(String.valueOf(jsonArray));
+            return null;
+        } catch (IOException e) {
+            request.setAttribute("msg", "查询无效用户失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
 }
