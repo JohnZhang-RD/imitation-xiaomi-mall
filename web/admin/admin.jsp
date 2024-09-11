@@ -131,6 +131,9 @@
 				$("#showUser").click(function(){
 					$(".dv_content").attr("src","admin/userList.jsp");
 				})
+				$("#invalid").click(function () {
+					$(".dv_content").attr("src", "admin/invalidUser.jsp");
+				})
 				$("#showGoodsType").click(function(){
 					$(".dv_content").attr("src","${pageContext.request.contextPath}/goodstypeservlet?method=getGoodsType&flag=show");
 				})
@@ -152,5 +155,16 @@
 			</iframe>
 		</div>
 	</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		// 绑定点击事件
+		$("#showUser").click(function(){
+			$(".dv_content").attr("src","admin/userList.jsp");
+		});
+
+		// 页面加载时模拟点击事件
+		$("#showUser").trigger("click");
+	});
+</script>
 </body>
 </html>

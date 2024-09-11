@@ -1,6 +1,7 @@
 package cn.francis.mall.web.controller;
 
 import cn.francis.mall.domain.GoodsType;
+import cn.francis.mall.domain.User;
 import cn.francis.mall.service.GoodsTypeService;
 import cn.francis.mall.service.impl.GoodsTypeServiceImpl;
 import cn.francis.mall.utils.StringUtils;
@@ -54,6 +55,10 @@ public class GoodsTypeServlet extends BaseServlet {
     // goodstypeservlet?method=getGoodsType?flag=add
     public String getGoodsType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 是否登录
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/login.jsp";
+        }
         String flag = request.getParameter("flag");
         if (StringUtils.isEmpty(flag)) {
             request.setAttribute("msg", "flag为空");
@@ -78,6 +83,10 @@ public class GoodsTypeServlet extends BaseServlet {
 
     // goodstypeservlet?method=addGoodsType
     public String addGoodsType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/login.jsp";
+        }
         return null;
     }
 }

@@ -2,6 +2,7 @@ package cn.francis.mall.web.controller;
 
 import cn.francis.mall.domain.Goods;
 import cn.francis.mall.domain.PageBean;
+import cn.francis.mall.domain.User;
 import cn.francis.mall.service.GoodsService;
 import cn.francis.mall.service.impl.GoodsServiceImpl;
 import cn.francis.mall.utils.FileUtils;
@@ -112,7 +113,10 @@ public class GoodsServlet extends BaseServlet {
     // goodsservlet?method=getGoodsList
     public String getGoodsList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 检查登录
-
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/login.jsp";
+        }
         try {
             // 暂时不做分页
             GoodsService goodsService = new GoodsServiceImpl();
@@ -127,6 +131,10 @@ public class GoodsServlet extends BaseServlet {
 
     // goodsservlet?method=addGoods
     public String addGoods(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/login.jsp";
+        }
         String name = request.getParameter("gname");
         if (StringUtils.isEmpty(name)) {
             request.setAttribute("msg", "商品名称为空");

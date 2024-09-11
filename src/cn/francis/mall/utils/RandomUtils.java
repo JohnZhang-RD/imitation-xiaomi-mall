@@ -29,6 +29,6 @@ public class RandomUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(getTime());
+        System.out.println(createActiveCode());
     }
 }

@@ -38,7 +38,7 @@
     <div id="dingdanxiangqing_body_big">
         <div id="big_left">
            	   <p style="font-size:18px;margin-top: 15px">订单中心</p>
-               <a id="big_left_a" href="dingdanxiangqing.html">我的订单</a><br/>
+               <a id="big_left_a" href="orderservlet?method=getOrderList">我的订单</a><br/>
                <a id="big_left_a" href="">意外保</a><br/>
                <a id="big_left_a" href="">团购订单</a><br/>
                <a id="big_left_a" href="">评价晒单</a><br/>

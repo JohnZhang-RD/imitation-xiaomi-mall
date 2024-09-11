@@ -152,7 +152,10 @@ public class OrderServlet extends BaseServlet {
     // orderservlet?method=getAllOrder
     public String getAllOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         // 登录校验
-
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/login.jsp";
+        }
         try {
             OrderService orderService = new OrderServiceImpl();
             List<Order> orderList = orderService.listOrder();

@@ -327,6 +327,9 @@ public class UserServlet extends BaseServlet {
         try {
             UserService userService = new UserServiceImpl();
             User admin = userService.login(username, password);
+            // 做登录校验
+            request.getSession().setAttribute("admin", admin);
+
             request.setAttribute("admin", admin);
             return "/admin/admin.jsp";
         } catch (Exception e) {
@@ -339,7 +342,10 @@ public class UserServlet extends BaseServlet {
     public String getUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
         // 判断是否登录
-
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/login.jsp";
+        }
         try {
             UserService userService = new UserServiceImpl();
             List<User> userList = userService.listUser();
@@ -358,6 +364,12 @@ public class UserServlet extends BaseServlet {
     // userservlet?method=searchUser&username=ad
     public String searchUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json;charset=UTF-8");
+
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/login.jsp";
+        }
+
         String username = request.getParameter("username");
         String gender = request.getParameter("gender");
 
@@ -392,6 +404,12 @@ public class UserServlet extends BaseServlet {
 
     // userservlet?method=deleteUser?id="+id
     public String deleteUser(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/login.jsp";
+        }
+
         String uid = request.getParameter("id");
         if (StringUtils.isEmpty(uid)) {
             request.setAttribute("msg", "用户id不能为空");
@@ -407,4 +425,6 @@ public class UserServlet extends BaseServlet {
             return "/message.jsp";
         }
     }
+
+    // userservlet?method=getInvalidUserList
 }
