@@ -74,4 +74,9 @@ public class GoodsServiceImpl implements GoodsService {
         goodsDao.updateGoods(goods);
     }
 
+    @Override
+    public List<Goods> listGoods(String where, List<Object> params) {
+        return goodsDao.listGoods(where, params);
+    }
+
 }

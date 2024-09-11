@@ -28,6 +28,14 @@
 			form.submit();
 		})
 	})
+
+	$(document).ready(function () {
+		$('#search').on('click', function (e) {
+			e.preventDefault();
+			let form = $('#searchForm')
+			form.submit();
+		})
+	})
 </script>
 </head>
 <body>
@@ -38,23 +46,25 @@
 				会员列表
 			</div>
 			<div class="panel-body">
-				<div class="row">
-					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-						<div class="form-group form-inline">
-							<span>商品名称</span>
-							<input type="text" name="name" class="form-control">
+				<form id="searchForm" action="${pageContext.request.contextPath}/goodsservlet?method=searchGoods" method="post" enctype="application/x-www-form-urlencoded">
+					<div class="row">
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<div class="form-group form-inline">
+								<span>商品名称</span>
+								<input type="text" name="searchName" class="form-control">
+							</div>
+						</div>
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<div class="form-group form-inline">
+								<span>上架时间</span>
+								<input type="text" readonly="readonly"  name="searchPubdate" class="form-control" onclick="setday(this)">
+							</div>
+						</div>
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							<button type="button" class="btn btn-primary" id="search"><span class="glyphicon glyphicon-search"></span></button>
 						</div>
 					</div>
-					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-						<div class="form-group form-inline">
-							<span>上架时间</span>
-							<input type="text" readonly="readonly"  name="pubdate" class="form-control" onclick="setday(this)">
-						</div>
-					</div>
-					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-						<button type="button" class="btn btn-primary" id="search"><span class="glyphicon glyphicon-search"></span></button>
-					</div>
-				</div>
+				</form>
 				<div style="height: 400px;overflow: scroll;">
 					<table id="tb_list" class="table table-striped table-hover table-bordered">
 						<tr>

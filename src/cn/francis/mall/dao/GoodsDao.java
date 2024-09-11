@@ -29,4 +29,6 @@ public interface GoodsDao {
     void deleteGoods(Integer id);
 
     void updateGoods(Goods goods);
+
+    List<Goods> listGoods(String where, List<Object> params);
 }

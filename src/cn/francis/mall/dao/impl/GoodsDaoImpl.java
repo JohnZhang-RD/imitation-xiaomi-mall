@@ -99,4 +99,15 @@ public class GoodsDaoImpl implements GoodsDao {
         }
     }
 
+    @Override
+    public List<Goods> listGoods(String where, List<Object> params) {
+        String sql = " SELECT * FROM tb_goods " + where;
+        System.out.println(sql);
+        try {
+            return queryRunner.query(sql, new BeanListHandler<>(Goods.class), params.toArray());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

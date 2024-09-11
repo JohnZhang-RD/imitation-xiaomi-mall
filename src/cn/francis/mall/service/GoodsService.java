@@ -28,4 +28,6 @@ public interface GoodsService {
     void removeGoods(Integer id);
 
     void modifyGoods(Goods goods);
+
+    List<Goods> listGoods(String where, List<Object> params);
 }

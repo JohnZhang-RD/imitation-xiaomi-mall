@@ -286,4 +286,39 @@ public class GoodsServlet extends BaseServlet {
             return "/message.jsp";
         }
     }
+
+    // goodsservlet?method=searchGoods
+    public String searchGoods(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/admin/login.jsp";
+        }
+
+        String name = request.getParameter("searchName");
+        String pubdateStr = request.getParameter("searchPubdate");
+
+        StringBuilder where = new StringBuilder(" where 1 = 1 ");
+        List<Object> params = new ArrayList<>();
+
+        if (!StringUtils.isEmpty(name)) {
+            where.append(" and name like ? ");
+            params.add("%" + name + "%");
+        }
+        if (!StringUtils.isEmpty(pubdateStr)) {
+            pubdateStr = pubdateStr + " 00:00:00";
+            where.append(" and pubdate = ? ");
+            LocalDateTime pubdate = LocalDateTime.parse(pubdateStr, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+            params.add(pubdate);
+        }
+
+        try {
+            GoodsService goodsService = new GoodsServiceImpl();
+            List<Goods> goodsList = goodsService.listGoods(where.toString(), params);
+            request.setAttribute("goodsList", goodsList);
+            return "admin/showGoods.jsp";
+        } catch (Exception e) {
+            request.setAttribute("msg", "商品查询失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
 }
