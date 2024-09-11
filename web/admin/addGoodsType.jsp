@@ -20,6 +20,13 @@
 			form.submit();
 		})
 	})
+
+	$('#resetBtn').on('click', function (e) {
+		if ($(this).hasClass('clear-button')) {
+			e.preventDefault();
+			$('#form')[0].reset(); // 重置表单
+		}
+	});
 </script>
 </head>
 <body>
@@ -51,8 +58,8 @@
 				</div>
 				<div class="row">
 					<div class="btn-group">
-						<button type="reset" class="btn btn-default">清空</button>
-						<button id="addGoodsType" type="submit" class="btn btn-default">添加</button>
+						<button id="resetBtn" type="reset" class="btn btn-warning">清空</button>
+						<button id="addGoodsType" type="submit" class="btn btn-primary">添加</button>
 					</div>
 				</div>
 			</form>

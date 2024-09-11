@@ -114,10 +114,8 @@
 			$('#updateBtn').on('click', function(e) {
 				e.preventDefault();
 
-				// 获取表单
 				var form = $('#modal form');
 
-				// 提交表单
 				form.submit();
 			});
 		});

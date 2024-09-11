@@ -78,4 +78,25 @@ public class GoodsDaoImpl implements GoodsDao {
         }
     }
 
+    @Override
+    public void deleteGoods(Integer id) {
+        String sql = " DELETE FROM tb_goods WHERE id = ? ";
+        try {
+            queryRunner.update(sql, id);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void updateGoods(Goods goods) {
+        String sql = " UPDATE tb_goods SET name = ?, price = ?, star = ?, intro = ?, typeid = ? WHERE id = ? ";
+        Object[] params = {goods.getName(), goods.getPrice(), goods.getStar(), goods.getIntro(), goods.getTypeid(), goods.getId()};
+        try {
+            queryRunner.update(sql, params);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

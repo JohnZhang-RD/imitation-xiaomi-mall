@@ -115,7 +115,7 @@ public class GoodsServlet extends BaseServlet {
         // 检查登录
         User admin = (User) request.getSession().getAttribute("admin");
         if (admin == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/admin/login.jsp";
         }
         try {
             // 暂时不做分页
@@ -133,7 +133,7 @@ public class GoodsServlet extends BaseServlet {
     public String addGoods(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User admin = (User) request.getSession().getAttribute("admin");
         if (admin == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/admin/login.jsp";
         }
         String name = request.getParameter("gname");
         if (StringUtils.isEmpty(name)) {
@@ -214,6 +214,75 @@ public class GoodsServlet extends BaseServlet {
             return "redirect:/goodsservlet?method=getGoodsList";
         } catch (IOException e) {
             request.setAttribute("msg", "商品存储失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // "goodsservlet?method=deleteGoods&id="+id;
+    public String deleteGoods(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/admin/login.jsp";
+        }
+        String id = request.getParameter("id");
+        if (StringUtils.isEmpty(id)) {
+            request.setAttribute("msg", "商品id为空");
+            return "/message.jsp";
+        }
+        try {
+            GoodsService goodsService = new GoodsServiceImpl();
+            goodsService.removeGoods(Integer.parseInt(id));
+            return "redirect:/goodsservlet?method=getGoodsList";
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    // goodsservlet?method=updateGoods
+    public String updateGoods(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/admin/login.jsp";
+        }
+        String id = request.getParameter("id");
+        String name = request.getParameter("name");
+        String price = request.getParameter("price");
+        String star = request.getParameter("star");
+        String intro = request.getParameter("intro");
+        String typeid = request.getParameter("typeid");
+
+        if (StringUtils.isEmpty(id)) {
+            request.setAttribute("msg", "商品id为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(name)) {
+            request.setAttribute("msg", "商品名称为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(price)) {
+            request.setAttribute("msg", "商品价格为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(star)) {
+            request.setAttribute("msg", "商品评分为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(intro)) {
+            request.setAttribute("msg", "商品介绍为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(typeid)) {
+            request.setAttribute("msg", "商品类型id为空");
+            return "/message.jsp";
+        }
+
+        try {
+            GoodsService goodsService = new GoodsServiceImpl();
+            Goods goods = new Goods(Integer.parseInt(id), name, null, null, new BigDecimal(price), Integer.parseInt(star), intro, Integer.parseInt(typeid));
+            goodsService.modifyGoods(goods);
+            return "redirect:/goodsservlet?method=getGoodsList";
+        } catch (NumberFormatException e) {
+            request.setAttribute("msg", "商品更新失败" + e.getMessage());
             return "/message.jsp";
         }
     }

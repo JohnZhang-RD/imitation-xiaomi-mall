@@ -25,4 +25,8 @@ public interface GoodsDao {
     List<Goods> listGoods();
 
     void insertGoods(Goods goods);
+
+    void deleteGoods(Integer id);
+
+    void updateGoods(Goods goods);
 }

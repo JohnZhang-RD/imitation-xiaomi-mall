@@ -64,4 +64,14 @@ public class GoodsServiceImpl implements GoodsService {
         goodsDao.insertGoods(goods);
     }
 
+    @Override
+    public void removeGoods(Integer id) {
+        goodsDao.deleteGoods(id);
+    }
+
+    @Override
+    public void modifyGoods(Goods goods) {
+        goodsDao.updateGoods(goods);
+    }
+
 }

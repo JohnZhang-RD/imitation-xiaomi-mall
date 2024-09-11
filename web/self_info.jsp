@@ -107,7 +107,7 @@
 										</div>
 									</form>
 								</div>
-							</div>
+							  </div>
 							</div>
 							
 							<button onclick="defaultAddr(${address.id})" class="btn btn-primary btn-sm">设为默认</button>

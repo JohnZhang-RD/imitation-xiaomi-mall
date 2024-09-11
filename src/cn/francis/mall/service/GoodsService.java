@@ -24,4 +24,8 @@ public interface GoodsService {
     List<Goods> listGoods();
 
     void saveGoods(Goods goods);
+
+    void removeGoods(Integer id);
+
+    void modifyGoods(Goods goods);
 }
