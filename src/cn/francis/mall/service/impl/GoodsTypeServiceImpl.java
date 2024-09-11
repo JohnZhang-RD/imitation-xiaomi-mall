@@ -53,4 +53,9 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
         goodsType.setLevel(parentGoodsType.getLevel() + 1);
         goodsTypeDao.insertGoodsType(goodsType);
     }
+
+    @Override
+    public List<GoodsType> listGoodsType(String where, List<Object> params) {
+        return goodsTypeDao.listGoodsType(where, params);
+    }
 }

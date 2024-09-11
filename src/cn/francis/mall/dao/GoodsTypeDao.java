@@ -26,4 +26,6 @@ public interface GoodsTypeDao {
     void updateGoodsType(GoodsType goodsType);
 
     void insertGoodsType(GoodsType goodsType);
+
+    List<GoodsType> listGoodsType(String where, List<Object> params);
 }

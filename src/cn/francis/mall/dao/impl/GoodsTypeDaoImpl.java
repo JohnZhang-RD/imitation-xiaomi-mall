@@ -85,4 +85,14 @@ public class GoodsTypeDaoImpl implements GoodsTypeDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<GoodsType> listGoodsType(String where, List<Object> params) {
+        String sql = " SELECT * FROM tb_goods_type " + where;
+        try {
+            return queryRunner.query(sql, new BeanListHandler<>(GoodsType.class), params.toArray());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

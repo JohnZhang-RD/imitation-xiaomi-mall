@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -150,6 +151,41 @@ public class GoodsTypeServlet extends BaseServlet {
             return "redirect:/admin/showGoodsType.jsp";
         } catch (NumberFormatException e) {
             request.setAttribute("msg", "更新商品类型失败");
+            return "/message.jsp";
+        }
+    }
+
+    // goodstypeservlet?method=searchGoodsType
+    public String searchGoodsType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/login.jsp";
+        }
+        response.setContentType("application/json;charset=UTF-8");
+        String level = request.getParameter("level");
+        String name = request.getParameter("name");
+
+        StringBuilder where = new StringBuilder(" where 1 = 1 ");
+        List<Object> params = new ArrayList<>();
+
+        if (!StringUtils.isEmpty(level)) {
+            where.append(" and level = ? ");
+            params.add(Integer.parseInt(level));
+        }
+        if (!StringUtils.isEmpty(name)) {
+            where.append(" and name like ? ");
+            params.add("%" + name + "%");
+        }
+
+        try {
+            GoodsTypeService goodsTypeService = new GoodsTypeServiceImpl();
+            List<GoodsType> goodsTypeList = goodsTypeService.listGoodsType(where.toString(), params);
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.addAll(goodsTypeList);
+            response.getWriter().write(String.valueOf(jsonArray));
+            return null;
+        } catch (Exception e) {
+            request.setAttribute("msg", "查询商品类型失败");
             return "/message.jsp";
         }
     }

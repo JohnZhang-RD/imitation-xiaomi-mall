@@ -23,6 +23,9 @@
 			location.href="${pageContext.request.contextPath}/searchOrder?username="+username+"&status="+status;
 		})
 	})
+	$(document).on('click', function (e) {
+
+	})
 </script>
 </head>
 <body>
@@ -33,29 +36,31 @@
 				订单列表
 			</div>
 			<div class="panel-body">
-				<div class="row">
-					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-						<div class="form-group form-inline">
-							<span>用户姓名</span>
-							<input type="text" name="username" class="form-control">
+				<form action="" method="post" enctype="application/x-www-form-urlencoded">
+					<div class="row">
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<div class="form-group form-inline">
+								<span>用户姓名</span>
+								<input type="text" name="username" class="form-control">
+							</div>
+						</div>
+						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
+							<div class="form-group form-inline">
+								<span>订单状态</span>
+								<select name="orderStatus" class="form-control">
+									<option value=" ">----------</option>
+									<option value="1">未支付</option>
+									<option value="2">已支付,待发货</option>
+									<option value="3">已发货,待收货</option>
+									<option value="4">完成订单</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
+							<button type="button" class="btn btn-primary" id="search"><span class="glyphicon glyphicon-search"></span></button>
 						</div>
 					</div>
-					<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
-						<div class="form-group form-inline">
-							<span>订单状态</span>
-							<select name="orderStatus" class="form-control">
-								<option value=" ">----------</option>
-								<option value="1">未支付</option>
-								<option value="2">已支付,待发货</option>
-								<option value="3">已发货,待收货</option>
-								<option value="4">完成订单</option>
-							</select>
-						</div>
-					</div>
-					<div class="col-xs-2 col-sm-2 col-md-2 col-lg-2">
-						<button type="button" class="btn btn-primary" id="search"><span class="glyphicon glyphicon-search"></span></button>
-					</div>
-				</div>
+				</form>
 				
 				<table id="tb_list" class="table table-striped table-hover table-bordered table-condensed">
 					<tr>

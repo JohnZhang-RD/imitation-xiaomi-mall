@@ -26,4 +26,6 @@ public interface GoodsTypeService {
     void modify(GoodsType goodsType);
 
     void saveGoodsType(GoodsType goodsType);
+
+    List<GoodsType> listGoodsType(String where, List<Object> params);
 }
