@@ -74,4 +74,15 @@ public class GoodsTypeDaoImpl implements GoodsTypeDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void insertGoodsType(GoodsType goodsType) {
+        String sql = " INSERT INTO tb_goods_type  (name, level , parent) value (?, ?, ?) ";
+        Object[] params = {goodsType.getName(), goodsType.getLevel(), goodsType.getParent()};
+        try {
+            queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

@@ -24,4 +24,6 @@ public interface GoodsTypeDao {
     void deleteGoodsType(int typeId);
 
     void updateGoodsType(GoodsType goodsType);
+
+    void insertGoodsType(GoodsType goodsType);
 }

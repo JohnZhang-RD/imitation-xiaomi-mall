@@ -138,7 +138,7 @@
 					$(".dv_content").attr("src","admin/showGoodsType.jsp");
 				})
 				$("#addGoodsType").click(function(){
-					$(".dv_content").attr("src","admin/addGoodsType.jsp");
+					$(".dv_content").attr("src","${pageContext.request.contextPath}/goodstypeservlet?method=getGoodsType&flag=add");
 				})
 				$("#showGoods").click(function(){
 					$(".dv_content").attr("src","${pageContext.request.contextPath}/goodsservlet?method=getGoodsList");

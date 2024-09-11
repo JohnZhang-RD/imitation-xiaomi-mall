@@ -45,4 +45,12 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
     public void modify(GoodsType goodsType) {
         goodsTypeDao.updateGoodsType(goodsType);
     }
+
+    @Override
+    public void saveGoodsType(GoodsType goodsType) {
+        GoodsTypeService goodsTypeService = new GoodsTypeServiceImpl();
+        GoodsType parentGoodsType = goodsTypeService.getGoodsType(goodsType.getParent());
+        goodsType.setLevel(parentGoodsType.getLevel() + 1);
+        goodsTypeDao.insertGoodsType(goodsType);
+    }
 }

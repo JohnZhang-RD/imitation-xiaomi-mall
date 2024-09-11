@@ -61,9 +61,14 @@ public class GoodsTypeServlet extends BaseServlet {
             return "redirect:/login.jsp";
         }
         response.setContentType("application/json;charset=UTF-8");
+        String flag = request.getParameter("flag");
         try {
             GoodsTypeService goodsTypeService = new GoodsTypeServiceImpl();
             List<GoodsType> goodsTypeList = goodsTypeService.listGoodsType();
+            if ("add".equals(flag)) {
+                request.setAttribute("goodsTypeList", goodsTypeList);
+                return "admin/addGoodsType.jsp";
+            }
             JSONArray jsonArray = new JSONArray();
             jsonArray.addAll(goodsTypeList);
             response.getWriter().write(String.valueOf(jsonArray));
@@ -80,7 +85,28 @@ public class GoodsTypeServlet extends BaseServlet {
         if (admin == null) {
             return "redirect:/login.jsp";
         }
-        return null;
+
+        String parent = request.getParameter("goodsParent");
+        String name = request.getParameter("typename");
+
+        if (StringUtils.isEmpty(parent)) {
+            request.setAttribute("msg", "商品类型父类为空");
+            return "/message.jsp";
+        }
+        if (StringUtils.isEmpty(name)) {
+            request.setAttribute("msg", "商品类型名称为空");
+            return "/message.jsp";
+        }
+
+        try {
+            GoodsTypeService goodsTypeService = new GoodsTypeServiceImpl();
+            GoodsType goodsType = new GoodsType(0, name, null, Integer.parseInt(parent));
+            goodsTypeService.saveGoodsType(goodsType);
+            return "redirect:/admin/showGoodsType.jsp";
+        } catch (NumberFormatException e) {
+            request.setAttribute("msg", "商品类型插入失败" + e.getMessage());
+            return "/message.jsp";
+        }
     }
 
     // "${pageContext.request.contextPath}/goodstypeservlet?method=deleteGoodsType&id="+id

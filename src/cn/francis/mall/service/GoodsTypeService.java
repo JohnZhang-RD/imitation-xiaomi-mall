@@ -24,4 +24,6 @@ public interface GoodsTypeService {
     void removeGoodsType(int typeId);
 
     void modify(GoodsType goodsType);
+
+    void saveGoodsType(GoodsType goodsType);
 }

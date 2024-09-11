@@ -13,6 +13,13 @@
 <title>添加商品种类</title>
 <script>
 
+	$(document).ready(function () {
+		$('#addGoodsType').on('click', function (e) {
+			e.preventDefault();
+			let form = $('#acForm')
+			form.submit();
+		})
+	})
 </script>
 </head>
 <body>
@@ -22,7 +29,7 @@
 			添加商品种类
 		</div>
 		<div class="panel-body">
-			<form action="${pageContext.request.contextPath }/goodstypeservlet?method=addGoodsType" method="post">
+			<form id="acForm" action="${pageContext.request.contextPath }/goodstypeservlet?method=addGoodsType" method="post">
 				<div class="row">
 					<div class="form-group form-inline">
 						<span>所属种类</span>
@@ -45,7 +52,7 @@
 				<div class="row">
 					<div class="btn-group">
 						<button type="reset" class="btn btn-default">清空</button>
-						<button type="submit" class="btn btn-default">添加</button>
+						<button id="addGoodsType" type="submit" class="btn btn-default">添加</button>
 					</div>
 				</div>
 			</form>
