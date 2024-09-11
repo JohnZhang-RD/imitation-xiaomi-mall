@@ -20,4 +20,8 @@ public interface GoodsTypeService {
     GoodsType getGoodsType(Integer typeid);
 
     List<GoodsType> listGoodsType();
+
+    void removeGoodsType(int typeId);
+
+    void modify(GoodsType goodsType);
 }

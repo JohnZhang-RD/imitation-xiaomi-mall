@@ -6,6 +6,7 @@ import cn.francis.mall.service.GoodsTypeService;
 import cn.francis.mall.service.impl.GoodsTypeServiceImpl;
 import cn.francis.mall.utils.StringUtils;
 import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONArray;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -59,21 +60,13 @@ public class GoodsTypeServlet extends BaseServlet {
         if (admin == null) {
             return "redirect:/login.jsp";
         }
-        String flag = request.getParameter("flag");
-        if (StringUtils.isEmpty(flag)) {
-            request.setAttribute("msg", "flag为空");
-            return "/message.jsp";
-        }
+        response.setContentType("application/json;charset=UTF-8");
         try {
             GoodsTypeService goodsTypeService = new GoodsTypeServiceImpl();
             List<GoodsType> goodsTypeList = goodsTypeService.listGoodsType();
-            request.setAttribute("goodsTypeList", goodsTypeList);
-            if ("show".equals(flag)) {
-                return "/admin/showGoodsType.jsp";
-            }
-            if ("add".equals(flag)) {
-                return "admin/addGoodsType.jsp";
-            }
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.addAll(goodsTypeList);
+            response.getWriter().write(String.valueOf(jsonArray));
             return null;
         } catch (Exception e) {
             request.setAttribute("msg", "获取商品类型失败" + e.getMessage());
@@ -88,5 +81,50 @@ public class GoodsTypeServlet extends BaseServlet {
             return "redirect:/login.jsp";
         }
         return null;
+    }
+
+    // "${pageContext.request.contextPath}/goodstypeservlet?method=deleteGoodsType&id="+id
+    public String deleteGoodsType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/login.jsp";
+        }
+        String id = request.getParameter("id");
+        if (StringUtils.isEmpty(id)) {
+            request.setAttribute("msg", "商品类型id为空失败");
+            return "/message.jsp";
+        }
+        try {
+            GoodsTypeService goodsTypeService = new GoodsTypeServiceImpl();
+            goodsTypeService.removeGoodsType(Integer.parseInt(id));
+            return null;
+        } catch (NumberFormatException e) {
+            request.setAttribute("msg", "删除商品失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // goodstypeservlet?method=updateGoodsTyep
+    public String updateGoodsTyep(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/login.jsp";
+        }
+
+        String id = request.getParameter("id");
+        String name = request.getParameter("modalName");
+        String level = request.getParameter("modalLevel");
+        String parent = request.getParameter("parent");
+
+        try {
+            GoodsTypeService goodsTypeService = new GoodsTypeServiceImpl();
+            GoodsType goodsType = new GoodsType(Integer.parseInt(id), name, Integer.parseInt(level), Integer.parseInt(parent));
+            goodsTypeService.modify(goodsType);
+
+            return "redirect:/admin/showGoodsType.jsp";
+        } catch (NumberFormatException e) {
+            request.setAttribute("msg", "更新商品类型失败");
+            return "/message.jsp";
+        }
     }
 }

@@ -34,4 +34,15 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
     public List<GoodsType> listGoodsType() {
         return goodsTypeDao.listGoodsType();
     }
+
+    @Override
+    public void removeGoodsType(int typeId) {
+        // TODO 级联删除商品、或采用其他方法
+        goodsTypeDao.deleteGoodsType(typeId);
+    }
+
+    @Override
+    public void modify(GoodsType goodsType) {
+        goodsTypeDao.updateGoodsType(goodsType);
+    }
 }

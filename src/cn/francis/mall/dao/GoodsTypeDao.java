@@ -20,4 +20,8 @@ public interface GoodsTypeDao {
     GoodsType getGoodsType(Integer typeid);
 
     List<GoodsType> listGoodsType();
+
+    void deleteGoodsType(int typeId);
+
+    void updateGoodsType(GoodsType goodsType);
 }

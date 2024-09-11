@@ -135,10 +135,10 @@
 					$(".dv_content").attr("src", "admin/invalidUser.jsp");
 				})
 				$("#showGoodsType").click(function(){
-					$(".dv_content").attr("src","${pageContext.request.contextPath}/goodstypeservlet?method=getGoodsType&flag=show");
+					$(".dv_content").attr("src","admin/showGoodsType.jsp");
 				})
 				$("#addGoodsType").click(function(){
-					$(".dv_content").attr("src","${pageContext.request.contextPath}/goodstypeservlet?method=getGoodsType&flag=add");
+					$(".dv_content").attr("src","admin/addGoodsType.jsp");
 				})
 				$("#showGoods").click(function(){
 					$(".dv_content").attr("src","${pageContext.request.contextPath}/goodsservlet?method=getGoodsList");

@@ -101,7 +101,6 @@
 													<input type="text" name="detail" class="form-control" value="${address.detail}">
 												</div>
 											</div>
-											
 										</div>
 										<div class="motal-footer text-center">
 											<button type="submit" class="btn btn-primary">修改</button>

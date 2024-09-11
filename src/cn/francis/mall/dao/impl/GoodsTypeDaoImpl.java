@@ -53,4 +53,25 @@ public class GoodsTypeDaoImpl implements GoodsTypeDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void deleteGoodsType(int typeId) {
+        String sql = " DELETE FROM tb_goods_type WHERE id = ? ";
+        try {
+            queryRunner.update(sql, typeId);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void updateGoodsType(GoodsType goodsType) {
+        String sql = " UPDATE tb_goods_type SET name = ?, level = ?, parent = ? WHERE id = ? ";
+        Object[] params = {goodsType.getName(), goodsType.getLevel(), goodsType.getParent(), goodsType.getId()};
+        try {
+            queryRunner.update(sql, params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
