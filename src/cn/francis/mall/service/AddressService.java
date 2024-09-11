@@ -15,5 +15,7 @@ import java.util.List;
  */
 
 public interface AddressService {
-    List<Address> listAddress(Integer id);
+    List<Address> listAddress(Integer uid);
+
+    void removeAddress(Integer uid);
 }

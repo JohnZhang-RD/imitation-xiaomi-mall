@@ -42,4 +42,14 @@ public class AddressDaoImpl implements AddressDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public void deleteAddress(Integer uid) {
+        String sql = " DELETE FROM tb_address WHERE uid = ? ";
+        try {
+            queryRunner.update(sql, uid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

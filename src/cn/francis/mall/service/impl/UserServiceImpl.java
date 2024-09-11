@@ -4,6 +4,7 @@ import cn.francis.mall.dao.UserDao;
 import cn.francis.mall.dao.impl.UserDaoImpl;
 import cn.francis.mall.domain.Address;
 import cn.francis.mall.domain.User;
+import cn.francis.mall.service.AddressService;
 import cn.francis.mall.service.UserService;
 import cn.francis.mall.utils.EmailUtils;
 import cn.francis.mall.utils.MD5Utils;
@@ -96,6 +97,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void removeUser(Integer uid) {
-        userDao.deleteUser(uid);
+        AddressService addressService = new AddressServiceImpl();
+        List<Address> addressList = addressService.listAddress(uid);
+        if (addressList.isEmpty()) {
+            userDao.deleteUser(uid);
+        } else {
+            addressService.removeAddress(uid);
+            userDao.deleteUser(uid);
+        }
     }
 }

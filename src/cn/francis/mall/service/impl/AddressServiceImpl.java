@@ -21,7 +21,12 @@ public class AddressServiceImpl implements AddressService {
     private AddressDao addressDao = new AddressDaoImpl();
 
     @Override
-    public List<Address> listAddress(Integer id) {
-        return addressDao.listAddress(id);
+    public List<Address> listAddress(Integer uid) {
+        return addressDao.listAddress(uid);
+    }
+
+    @Override
+    public void removeAddress(Integer uid) {
+        addressDao.deleteAddress(uid);
     }
 }

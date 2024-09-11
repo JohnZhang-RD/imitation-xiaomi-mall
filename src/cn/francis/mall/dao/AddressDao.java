@@ -18,4 +18,6 @@ public interface AddressDao {
     List<Address> listAddress(Integer id);
 
     Address getAddress(Integer aid);
+
+    void deleteAddress(Integer uid);
 }
