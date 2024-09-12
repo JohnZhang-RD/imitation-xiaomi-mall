@@ -180,4 +180,9 @@ public class OrderServiceImpl implements OrderService {
         }
         return orderList;
     }
+
+    @Override
+    public void modifyOrderStatus(String oid, int status) {
+        orderDao.updateOrderStatus(oid, status);
+    }
 }

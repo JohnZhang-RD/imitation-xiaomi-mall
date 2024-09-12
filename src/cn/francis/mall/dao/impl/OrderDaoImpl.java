@@ -141,4 +141,15 @@ public class OrderDaoImpl implements OrderDao {
         }
     }
 
+    @Override
+    public void updateOrderStatus(String oid, int status) {
+        Connection connection = DataSourceUtils.getConnection();
+        String sql = " UPDATE tb_order SET status = ? WHERE id = ?";
+        try {
+            queryRunner.update(connection, sql, status, oid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

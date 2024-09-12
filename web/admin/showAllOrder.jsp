@@ -14,15 +14,8 @@
 <script src="../js/bootstrap.min.js"></script>
 <script type="text/javascript">
 	function sendOrder(id){
-		location.href = "${pageContext.request.contextPath}/sendOrder?oid="+id;
+		location.href = "${pageContext.request.contextPath}/orderservlet?method=sendOrder&oid="+id;
 	}
-	$(function(){
-		$("#search").click(function(){
-			var username = $("input[name='username']").val();
-			var status = $("select[name='orderStatus'] option:selected").val();
-			location.href="${pageContext.request.contextPath}/searchOrder?username="+username+"&status="+status;
-		})
-	})
 	$(document).ready(function () {
 		$('#search').on('click', function (e) {
 			e.preventDefault();

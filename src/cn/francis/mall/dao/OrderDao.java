@@ -35,4 +35,6 @@ public interface OrderDao {
     List<Order> listOrderByStatus(int status);
 
     List<Order> listOrder(Integer uid, int status);
+
+    void updateOrderStatus(String oid, int status);
 }

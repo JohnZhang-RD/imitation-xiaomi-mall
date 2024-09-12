@@ -34,4 +34,6 @@ public interface OrderService {
     List<Order> listOrderByStatus(int status);
 
     List<Order> listOrder(String username, int status);
+
+    void modifyOrderStatus(String oid, int status);
 }

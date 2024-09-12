@@ -180,13 +180,10 @@ public class OrderServlet extends BaseServlet {
         String username = request.getParameter("username");
         String orderStatus = request.getParameter("orderStatus");
 
-        System.out.println(username + orderStatus);
-
         try {
             List<Order> orderList = new ArrayList<>();
             if (StringUtils.isEmpty(username) && StringUtils.isEmpty(orderStatus)) {
-                request.setAttribute("orderList", orderList);
-                return "admin/showAllOrder.jsp";
+                return "redirect:/orderservlet?method=getAllOrder";
             }
             if (!StringUtils.isEmpty(username) && StringUtils.isEmpty(orderStatus)) {
                 OrderService orderService = new OrderServiceImpl();
@@ -212,6 +209,23 @@ public class OrderServlet extends BaseServlet {
             return null;
         } catch (Exception e) {
             request.setAttribute("msg", "订单查询失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // orderservlet?method=sendOrder?oid="+id
+    public String sendOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/admin/login.jsp";
+        }
+        String oid = request.getParameter("oid");
+        try {
+            OrderService orderService = new OrderServiceImpl();
+            orderService.modifyOrderStatus(oid, 3);
+            return "redirect:/orderservlet?method=getAllOrder";
+        } catch (Exception e) {
+            request.setAttribute("msg", "订单状态修改失败" + e.getMessage());
             return "/message.jsp";
         }
     }
