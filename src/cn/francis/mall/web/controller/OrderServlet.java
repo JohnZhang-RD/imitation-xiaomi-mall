@@ -4,9 +4,11 @@ import cn.francis.mall.domain.*;
 import cn.francis.mall.service.AddressService;
 import cn.francis.mall.service.CartService;
 import cn.francis.mall.service.OrderService;
+import cn.francis.mall.service.UserService;
 import cn.francis.mall.service.impl.AddressServiceImpl;
 import cn.francis.mall.service.impl.CartServiceImpl;
 import cn.francis.mall.service.impl.OrderServiceImpl;
+import cn.francis.mall.service.impl.UserServiceImpl;
 import cn.francis.mall.utils.RandomUtils;
 import cn.francis.mall.utils.StringUtils;
 
@@ -18,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -154,7 +157,7 @@ public class OrderServlet extends BaseServlet {
         // 登录校验
         User admin = (User) request.getSession().getAttribute("admin");
         if (admin == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/admin/login.jsp";
         }
         try {
             OrderService orderService = new OrderServiceImpl();
@@ -163,6 +166,52 @@ public class OrderServlet extends BaseServlet {
             return "/admin/showAllOrder.jsp";
         } catch (Exception e) {
             request.setAttribute("msg", "获取全部订单失败" + e.getMessage());
+            return "/message.jsp";
+        }
+    }
+
+    // orderservlet?method=searchOrder
+    public String searchOrder(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        User admin = (User) request.getSession().getAttribute("admin");
+        if (admin == null) {
+            return "redirect:/admin/login.jsp";
+        }
+
+        String username = request.getParameter("username");
+        String orderStatus = request.getParameter("orderStatus");
+
+        System.out.println(username + orderStatus);
+
+        try {
+            List<Order> orderList = new ArrayList<>();
+            if (StringUtils.isEmpty(username) && StringUtils.isEmpty(orderStatus)) {
+                request.setAttribute("orderList", orderList);
+                return "admin/showAllOrder.jsp";
+            }
+            if (!StringUtils.isEmpty(username) && StringUtils.isEmpty(orderStatus)) {
+                OrderService orderService = new OrderServiceImpl();
+                orderList = orderService.listOrder(username);
+                for (Order order : orderList) {
+                    System.out.println(order);
+                }
+                request.setAttribute("orderList", orderList);
+                return "admin/showAllOrder.jsp";
+            }
+            if (StringUtils.isEmpty(username) && !StringUtils.isEmpty(orderStatus)) {
+                OrderService orderService = new OrderServiceImpl();
+                orderList = orderService.listOrderByStatus(Integer.parseInt(orderStatus));
+                request.setAttribute("orderList", orderList);
+                return "admin/showAllOrder.jsp";
+            }
+            if (!StringUtils.isEmpty(username) && !StringUtils.isEmpty(orderStatus)) {
+                OrderService orderService = new OrderServiceImpl();
+                orderList = orderService.listOrder(username, Integer.parseInt(orderStatus));
+                request.setAttribute("orderList", orderList);
+                return "admin/showAllOrder.jsp";
+            }
+            return null;
+        } catch (Exception e) {
+            request.setAttribute("msg", "订单查询失败" + e.getMessage());
             return "/message.jsp";
         }
     }

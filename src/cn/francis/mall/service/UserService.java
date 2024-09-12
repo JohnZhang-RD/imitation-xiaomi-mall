@@ -39,4 +39,8 @@ public interface UserService {
     List<User> listUser(String where, List<Object> params);
 
     void removeUser(Integer uid);
+
+    User getUser(String username);
+
+    List<User> listUser(String username);
 }

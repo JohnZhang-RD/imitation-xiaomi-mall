@@ -14,6 +14,7 @@ import cn.francis.mall.service.UserService;
 import cn.francis.mall.utils.DataSourceUtils;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -126,6 +127,56 @@ public class OrderServiceImpl implements OrderService {
                     order.setUser(user);
                 }
             }
+        }
+        return orderList;
+    }
+
+    @Override
+    public List<Order> listOrder(String where, List<Object> params) {
+        List<Order> orderList = orderDao.listOrder(where, params);
+        UserService userService = new UserServiceImpl();
+        List<User> userList = userService.listUser(1);
+        if (orderList == null || orderList.isEmpty()) {
+            throw new RuntimeException();
+        }
+        if (userList == null || userList.isEmpty()) {
+            throw new RuntimeException();
+        }
+        for (Order order : orderList) {
+            for (User user : userList) {
+                if (Objects.equals(order.getUid(), user.getId())) {
+                    order.setUser(user);
+                }
+            }
+        }
+        return orderList;
+    }
+
+    @Override
+    public List<Order> listOrder(String username) {
+        UserService userService = new UserServiceImpl();
+        List<User> userList = userService.listUser(username);
+        List<Order> orderList = new ArrayList<>();
+        for (User user : userList) {
+            List<Order> order = orderDao.listOrder(user.getId());
+            orderList.addAll(order);
+        }
+        return orderList;
+    }
+
+    @Override
+    public List<Order> listOrderByStatus(int status) {
+        return orderDao.listOrderByStatus(status);
+    }
+
+    @Override
+    public List<Order> listOrder(String username, int status) {
+        UserService userService = new UserServiceImpl();
+        List<User> userList = userService.listUser(username);
+        List<Order> orderList = new ArrayList<>();
+        for (User user : userList) {
+            List<Order> order = orderDao.listOrder(user.getId(), status);
+            orderList.addAll(order);
         }
         return orderList;
     }

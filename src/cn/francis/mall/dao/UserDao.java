@@ -37,4 +37,8 @@ public interface UserDao {
     List<User> listUser(String where, List<Object> params);
 
     void deleteUser(Integer uid);
+
+    User getUser(String username);
+
+    List<User> listUser(String username);
 }

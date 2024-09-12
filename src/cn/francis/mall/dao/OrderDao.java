@@ -29,4 +29,10 @@ public interface OrderDao {
     List<OrderDetail> listOrderDetail(String oid);
 
     List<Order> listOrder();
+
+    List<Order> listOrder(String where, List<Object> params);
+
+    List<Order> listOrderByStatus(int status);
+
+    List<Order> listOrder(Integer uid, int status);
 }

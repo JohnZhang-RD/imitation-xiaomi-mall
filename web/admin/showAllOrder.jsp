@@ -23,8 +23,12 @@
 			location.href="${pageContext.request.contextPath}/searchOrder?username="+username+"&status="+status;
 		})
 	})
-	$(document).on('click', function (e) {
-
+	$(document).ready(function () {
+		$('#search').on('click', function (e) {
+			e.preventDefault();
+			let form = $('#searchForm')
+			form.submit();
+		})
 	})
 </script>
 </head>
@@ -36,7 +40,7 @@
 				订单列表
 			</div>
 			<div class="panel-body">
-				<form action="" method="post" enctype="application/x-www-form-urlencoded">
+				<form id="searchForm" action="orderservlet?method=searchOrder" method="post" enctype="application/x-www-form-urlencoded">
 					<div class="row">
 						<div class="col-xs-5 col-sm-5 col-md-5 col-lg-5">
 							<div class="form-group form-inline">

@@ -26,4 +26,12 @@ public interface OrderService {
     List<OrderDetail> listOrderDetail(String oid);
 
     List<Order> listOrder();
+
+    List<Order> listOrder(String where, List<Object> params);
+
+    List<Order> listOrder(String username);
+
+    List<Order> listOrderByStatus(int status);
+
+    List<Order> listOrder(String username, int status);
 }

@@ -107,4 +107,38 @@ public class OrderDaoImpl implements OrderDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Order> listOrder(String where, List<Object> params) {
+        Connection connection = DataSourceUtils.getConnection();
+        String sql = " SELECT * FROM tb_order " + where;
+        try {
+            return queryRunner.query(connection, sql, new BeanListHandler<>(Order.class), params.toArray());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Order> listOrderByStatus(int status) {
+        Connection connection = DataSourceUtils.getConnection();
+        String sql = " SELECT * FROM tb_order WHERE status = ? ";
+        try {
+            return queryRunner.query(connection, sql, new BeanListHandler<>(Order.class), status);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Order> listOrder(Integer uid, int status) {
+        Connection connection = DataSourceUtils.getConnection();
+        String sql = " SELECT * FROM tb_order WHERE uid = ? AND status = ? ";
+        try {
+            return queryRunner.query(connection, sql, new BeanListHandler<>(Order.class), uid, status);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

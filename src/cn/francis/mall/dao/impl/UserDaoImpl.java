@@ -136,4 +136,25 @@ public class UserDaoImpl implements UserDao {
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public User getUser(String username) {
+        String sql = " SELECT * FROM tb_user WHERE username = ?";
+        try {
+            return queryRunner.query(sql, new BeanHandler<>(User.class), username);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<User> listUser(String username) {
+        String sql = " SELECT * FROM tb_user WHERE username like ?";
+        username = "%" + username + "%";
+        try {
+            return queryRunner.query(sql, new BeanListHandler<>(User.class), username);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
