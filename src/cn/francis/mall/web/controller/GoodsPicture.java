@@ -42,7 +42,7 @@ public class GoodsPicture extends BaseServlet {
         try {
             String basePath = this.getServletContext().getRealPath("WEB-INF/goods/covers");
             // 切分
-            String filename = pic.substring(pic.lastIndexOf("_") + 1);
+            String filename = pic.substring(pic.indexOf("_") + 1);
 //        System.out.println(filename);
             String realPath = FileUtils.makePath(basePath, filename);
             String path = realPath + File.separator + pic;
