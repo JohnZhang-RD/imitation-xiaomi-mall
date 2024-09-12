@@ -59,7 +59,7 @@ public class GoodsTypeServlet extends BaseServlet {
         // 是否登录
         User admin = (User) request.getSession().getAttribute("admin");
         if (admin == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/admin/login.jsp";
         }
         response.setContentType("application/json;charset=UTF-8");
         String flag = request.getParameter("flag");
@@ -84,7 +84,7 @@ public class GoodsTypeServlet extends BaseServlet {
     public String addGoodsType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User admin = (User) request.getSession().getAttribute("admin");
         if (admin == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/admin/login.jsp";
         }
 
         String parent = request.getParameter("goodsParent");
@@ -114,7 +114,7 @@ public class GoodsTypeServlet extends BaseServlet {
     public String deleteGoodsType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User admin = (User) request.getSession().getAttribute("admin");
         if (admin == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/admin/login.jsp";
         }
         String id = request.getParameter("id");
         if (StringUtils.isEmpty(id)) {
@@ -135,7 +135,7 @@ public class GoodsTypeServlet extends BaseServlet {
     public String updateGoodsTyep(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User admin = (User) request.getSession().getAttribute("admin");
         if (admin == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/admin/login.jsp";
         }
 
         String id = request.getParameter("id");
@@ -159,7 +159,7 @@ public class GoodsTypeServlet extends BaseServlet {
     public String searchGoodsType(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User admin = (User) request.getSession().getAttribute("admin");
         if (admin == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/admin/login.jsp";
         }
         response.setContentType("application/json;charset=UTF-8");
         String level = request.getParameter("level");

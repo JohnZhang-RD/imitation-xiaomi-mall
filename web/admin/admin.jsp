@@ -57,8 +57,8 @@
 				</a>
 			</li>
 			<li>
-				<a href="#"> 
-					<span class="glyphicon glyphicon-off"></span>注销
+				<a href="admin/login.jsp">
+					<span class="glyphicon glyphicon-off">退出</span>
 				</a>
 			</li>
 		</ul>

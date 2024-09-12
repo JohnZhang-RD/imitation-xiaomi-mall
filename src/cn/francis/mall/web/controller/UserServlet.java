@@ -311,8 +311,6 @@ public class UserServlet extends BaseServlet {
     /* ================================= 后台内容 =================================*/
     //    /adminLogin
     public String adminLogin(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        // 检查是否登录
-
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         if (StringUtils.isEmpty(username)) {
@@ -343,7 +341,7 @@ public class UserServlet extends BaseServlet {
         // 判断是否登录
         User admin = (User) request.getSession().getAttribute("admin");
         if (admin == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/admin/login.jsp";
         }
         try {
             UserService userService = new UserServiceImpl();
@@ -367,7 +365,7 @@ public class UserServlet extends BaseServlet {
 
         User admin = (User) request.getSession().getAttribute("admin");
         if (admin == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/admin/login.jsp";
         }
 
         String username = request.getParameter("username");
@@ -413,7 +411,7 @@ public class UserServlet extends BaseServlet {
 
         User admin = (User) request.getSession().getAttribute("admin");
         if (admin == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/admin/login.jsp";
         }
 
         String uid = request.getParameter("id");
@@ -435,7 +433,7 @@ public class UserServlet extends BaseServlet {
     public String getInvalidUserList(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         User admin = (User) request.getSession().getAttribute("admin");
         if (admin == null) {
-            return "redirect:/login.jsp";
+            return "redirect:/admin/login.jsp";
         }
         response.setContentType("application/json;charset=UTF-8");
         try {
