@@ -27,8 +27,4 @@ public class RandomUtils {
     public static String createOrderId() {
         return getTime() + new Random().nextInt(9999999);
     }
-
-    public static void main(String[] args) {
-        System.out.println(createActiveCode());
-    }
 }

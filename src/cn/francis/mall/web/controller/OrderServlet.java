@@ -146,8 +146,19 @@ public class OrderServlet extends BaseServlet {
 
     // orderservlet?method=changeStatus&oid="+orderId
     public String changeStatus(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        List<OrderDetail> orderDetailList =
-        return null;
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            return "redirect:/login.jsp";
+        }
+        try {
+            String oid = request.getParameter("oid");
+            OrderService orderService = new OrderServiceImpl();
+            orderService.modifyOrderStatus(oid, 4);
+            return "redirect:/orderservlet?method=getOrderList";
+        } catch (Exception e) {
+            request.setAttribute("msg", "商品状态更改失败" + e.getMessage());
+            return "/message.jsp";
+        }
     }
 
     /* ================================= 后台内容 =================================*/
