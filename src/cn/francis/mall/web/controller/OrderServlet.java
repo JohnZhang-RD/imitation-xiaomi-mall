@@ -89,6 +89,8 @@ public class OrderServlet extends BaseServlet {
             String oid = RandomUtils.createOrderId();
             Order order = new Order(oid, user.getId(), money, "1", LocalDateTime.now(), Integer.parseInt(aid));
             orderService.submitOrder(order, cartList);
+
+            request.setAttribute("order", order);
             return "/orderSuccess.jsp";
         } catch (NumberFormatException e) {
             request.setAttribute("msg", "订单添加失败" + e.getMessage());

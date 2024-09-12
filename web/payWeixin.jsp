@@ -36,7 +36,7 @@
 							<td colspan="1">支付金额:</td>
 							<td colspan="3">
 								<div class="input-group" style="width: 200px;">
-							      <input type="text" class="form-control"  name="price" value="1">
+							      <input type="text" class="form-control"  name="price" value="1" value="<%=request.getParameter("money")%>">
 							      <div class="input-group-addon"><span class="glyphicon glyphicon-yen"></span></div>
 						      	</div>
 							</td>
