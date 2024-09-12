@@ -36,7 +36,7 @@
 			var td3 = $("<td>" + data[u].username + "</td>");
 			var td4 = $("<td>" + data[u].gender + "</td>");
 			var td5 = $("<td>" + (data[u].role==0 ? "管理员" : "会员") + "</td>");
-			var td6 = $("<td><a href='javascript:delUser(" + data[u].id + ")' class='btn btn-danger btn-xs'>删除</a></td>");
+			var td6 = $("<td><a href='javascript:delUser(" + data[u].id + ")' class='btn btn-danger btn-sm'>删除</a></td>");
 
 			tr.append(td1);
 			tr.append(td2);

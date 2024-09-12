@@ -45,7 +45,7 @@
 			var td3 = $("<td>"+list[u].username+"</td>");
 			var td4 = $("<td>"+list[u].gender+"</td>");
 			var td5 = $("<td>"+(list[u].role==0?"管理员":"会员")+"</td>");
-			var td6 = $("<td><a href='javascript:delUser("+list[u].id+")' class='btn btn-danger btn-xs'>删除</a></td>");
+			var td6 = $("<td><a href='javascript:delUser("+list[u].id+")' class='btn btn-danger btn-sm'>删除</a></td>");
 			
 			//将td 添加到tr中
 			tr.append(td1);

@@ -47,10 +47,10 @@
 				var td2 = $("<td>"+name+"</td>");
 				var td3 = $("<td>"+level+"</td>");
 				var td4 = $("<td>"+parent+"</td>");
-				var td5 = $("<td><a href='javascript:delGoodsType("+id+")' class='btn btn-danger btn-xs'>删除</a></td>");
+				var td5 = $("<td><a href='javascript:delGoodsType("+id+")' class='btn btn-danger btn-sm'>删除</a></td>");
 				// var td6 = $("<td><a href='javascript:updateGoodsType(" + data[u].id + ',' + data[u].name + ',' + data[u].level + ',' + data[u].parent + ")' class='btn btn-primary btn-xs'  data-toggle='modal' data-target='#modal" + id + "'>更新</a></td>");
 				// var td6 = $("<td><a href='#' class='btn btn-primary btn-xs'  data-toggle='modal' data-target='#modal' onclick='modalRec(id, name, level, parent)'>更新</a></td>");
-				var td6 = $("<td><a href='#' class='btn btn-primary btn-xs'  data-toggle='modal' data-target='#modal' onclick='modalRec(" + id + ", \"" + name + "\", \"" + level + "\", \"" + parent + "\")'>更新</a></td>");
+				var td6 = $("<td><a href='#' class='btn btn-primary btn-sm'  data-toggle='modal' data-target='#modal' onclick='modalRec(" + id + ", \"" + name + "\", \"" + level + "\", \"" + parent + "\")'>更新</a></td>");
 
 				//将td 添加到tr中
 				tr.append(td1);
