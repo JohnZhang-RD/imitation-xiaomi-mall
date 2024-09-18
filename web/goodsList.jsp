@@ -51,7 +51,7 @@
 			  
 		</div>
 			
-			<c:if test="${pageBean.totalSize>0 }">
+			<c: if test="${pageBean.totalSize>0 }">
 			<nav aria-label="..." class="text-center">
 			  <ul class="pagination">
 			  	

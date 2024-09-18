@@ -24,7 +24,7 @@
 <div class="container" style="background-color: white;">
 	<div class="row" style="margin-left: 40px">
 		<h3>我的订单列表&nbsp;&nbsp;
-		<small>温馨提示：<em>${user.username}</em>有<font color="red">${orderList.size()}</font>个订单</small></h3>
+		<small>温馨提示：<em>${cuser.username}</em>有<font color="red">${orderList.size()}</font>个订单</small></h3>
 	</div>
 	<div class="row" style="margin-top: 40px;">
 		<div class="col-md-12">
